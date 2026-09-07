@@ -35,6 +35,17 @@ With .NET 8 SDK, Inno Setup 6.7.3, and `installer/vendor/PawnIO_setup.exe` (offi
 
 Use `-DotNet <path-to-dotnet.exe>` and `-InnoCompiler <path-to-ISCC.exe>` for tools outside PATH/default locations. Build output is under `artifacts/`. The installer source is `installer/StatsScreen.iss`.
 
+### Automated GitHub builds
+
+Pull requests and pushes to `main` run the test suite automatically. To publish a new installer, update the version in `StatsScreen.csproj` and `installer/StatsScreen.iss`, update `RELEASE_NOTES.md`, then push a matching tag such as `v0.2.1`:
+
+```powershell
+git tag v0.2.1
+git push origin v0.2.1
+```
+
+GitHub Actions validates the tag, downloads the official signed PawnIO 2.2.0 setup package with a pinned SHA256 check, builds the self-contained x64 installer, uploads it as a workflow artifact, and creates the GitHub release automatically. A manual workflow run can build and upload an installer artifact without publishing a release.
+
 ### Build the application
 
 From the repository directory:

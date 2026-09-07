@@ -1,0 +1,123 @@
+name: Build Stats Screen
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stats-screen-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Test
+    runs-on: windows-latest
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Run tests
+        run: dotnet test tests/StatsScreen.Tests/StatsScreen.Tests.csproj -c Release -m:1 /nr:false
+
+  package:
+    name: Package installer
+    if: (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')) || github.event_name == 'workflow_dispatch'
+    needs: test
+    runs-on: windows-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Read and validate application version
+        id: version
+        shell: pwsh
+        run: |
+          [xml]$project = Get-Content src/StatsScreen/StatsScreen.csproj
+          $version = [string]($project.Project.PropertyGroup.Version | Select-Object -First 1)
+          if ([string]::IsNullOrWhiteSpace($version)) {
+            throw 'The application version is missing from StatsScreen.csproj.'
+          }
+          if ($env:GITHUB_REF -like 'refs/tags/v*') {
+            $tagVersion = $env:GITHUB_REF_NAME.Substring(1)
+            if ($tagVersion -ne $version) {
+              throw "Tag $env:GITHUB_REF_NAME does not match application version $version."
+            }
+          }
+          "version=$version" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+
+      - name: Download and verify PawnIO
+        shell: pwsh
+        run: |
+          $destination = Join-Path $env:GITHUB_WORKSPACE 'installer/vendor/PawnIO_setup.exe'
+          New-Item -ItemType Directory -Force -Path (Split-Path $destination) | Out-Null
+          Invoke-WebRequest `
+            -Uri 'https://github.com/namazso/PawnIO.Setup/releases/download/2.2.0/PawnIO_setup.exe' `
+            -OutFile $destination
+          $expectedHash = '1F519A22E47187F70A1379A48CA604981C4FCF694F4E65B734AAA74A9FBA3032'
+          $actualHash = (Get-FileHash $destination -Algorithm SHA256).Hash.ToUpperInvariant()
+          if ($actualHash -ne $expectedHash) {
+            throw "PawnIO SHA256 mismatch. Expected $expectedHash, received $actualHash."
+          }
+          $signature = Get-AuthenticodeSignature $destination
+          if ($signature.Status -ne 'Valid') {
+            throw "PawnIO signature validation failed with status $($signature.Status)."
+          }
+
+      - name: Install Inno Setup
+        shell: pwsh
+        run: |
+          $innoPath = 'C:\Program Files (x86)\Inno Setup 6\ISCC.exe'
+          if (-not (Test-Path $innoPath)) {
+            choco install innosetup --no-progress --yes
+          }
+          if (-not (Test-Path $innoPath)) {
+            throw "Inno Setup compiler was not found at $innoPath."
+          }
+
+      - name: Build installer
+        shell: pwsh
+        run: .\build-installer.ps1 -DotNet dotnet -InnoCompiler 'C:\Program Files (x86)\Inno Setup 6\ISCC.exe'
+
+      - name: Upload installer artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: StatsScreen-Setup-${{ steps.version.outputs.version }}
+          path: artifacts/installer/StatsScreen-Setup-${{ steps.version.outputs.version }}.exe
+          if-no-files-found: error
+
+      - name: Create GitHub release
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          $asset = "artifacts/installer/StatsScreen-Setup-$env:VERSION.exe"
+          gh release create $env:GITHUB_REF_NAME $asset `
+            --repo $env:GITHUB_REPOSITORY `
+            --title "Stats Screen $env:GITHUB_REF_NAME" `
+            --notes-file RELEASE_NOTES.md
