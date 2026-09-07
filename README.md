@@ -37,7 +37,7 @@ Use `-DotNet <path-to-dotnet.exe>` and `-InnoCompiler <path-to-ISCC.exe>` for to
 
 ### Automated GitHub builds
 
-Pull requests and pushes to `main` run the test suite automatically. To publish a new installer, update the version in `StatsScreen.csproj` and `installer/StatsScreen.iss`, update `RELEASE_NOTES.md`, then push a matching tag such as `v0.2.1`:
+Pull requests and pushes to `main` run the test suite automatically. To publish a new installer, update the version in `StatsScreen.csproj`, `installer/StatsScreen.iss`, and `installer/setup-info.txt`, update `RELEASE_NOTES.md`, then push a matching tag such as `v0.2.1`:
 
 ```powershell
 git tag v0.2.1
