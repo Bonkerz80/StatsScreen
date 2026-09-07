@@ -1,0 +1,12 @@
+Stats Screen 0.1.1
+
+This setup installs the dashboard with its own .NET runtime.
+CPU sensor access requires administrator privileges. Windows will ask for permission when you open the app manually.
+
+The signed PawnIO 2.2.0 driver is installed only if it is missing or older. An existing newer version is kept. PawnIO is shared with other hardware tools and will not be removed when Stats Screen is uninstalled.
+
+Create a desktop shortcut is selected by default.
+Start with Windows is optional and off by default. When selected, setup creates an elevated scheduled task for the account running setup, triggered at sign-in. No password is stored. Run setup again to change this option.
+
+Press F2 for monitor settings, F11 for dedicated display mode, or Esc to leave it.
+Your monitor preferences and logs are retained when updating or uninstalling.

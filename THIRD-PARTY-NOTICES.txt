@@ -1,0 +1,11 @@
+Stats Screen uses unmodified LibreHardwareMonitorLib 0.9.6 (MPL-2.0).
+Source for this version: https://github.com/LibreHardwareMonitor/LibreHardwareMonitor/tree/v0.9.6
+Its license and third-party notices accompany this application in licenses/.
+
+The self-contained distribution includes Microsoft .NET 8 and Windows Desktop runtime components, covered by their accompanying LICENSE and THIRD-PARTY-NOTICES files.
+NuGet dependency license metadata is included in licenses/nuget/.
+
+Setup embeds the original digitally signed PawnIO setup 2.2.0 from:
+https://github.com/namazso/PawnIO.Setup/releases/tag/2.2.0
+PawnIO source: https://github.com/namazso/PawnIO
+PawnIO is installed as a shared system prerequisite and is not removed by this application's uninstaller.
