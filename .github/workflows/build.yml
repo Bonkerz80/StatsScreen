@@ -25,10 +25,10 @@ jobs:
 
     steps:
       - name: Check out source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Set up .NET 8
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 8.0.x
 
@@ -45,10 +45,10 @@ jobs:
 
     steps:
       - name: Check out source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Set up .NET 8
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 8.0.x
 
@@ -103,7 +103,7 @@ jobs:
         run: .\build-installer.ps1 -DotNet dotnet -InnoCompiler 'C:\Program Files (x86)\Inno Setup 6\ISCC.exe'
 
       - name: Upload installer artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: StatsScreen-Setup-${{ steps.version.outputs.version }}
           path: artifacts/installer/StatsScreen-Setup-${{ steps.version.outputs.version }}.exe
