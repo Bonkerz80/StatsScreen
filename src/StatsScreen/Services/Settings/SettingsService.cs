@@ -13,12 +13,12 @@ public sealed class SettingsService
         PropertyNameCaseInsensitive = true
     };
 
-    public SettingsService(IAppLogger logger)
+    public SettingsService(IAppLogger logger, string? settingsDirectory = null)
     {
         _logger = logger;
-        SettingsDirectory = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-            "StatsScreen");
+        SettingsDirectory = settingsDirectory ?? Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                "StatsScreen");
         SettingsFilePath = Path.Combine(SettingsDirectory, "settings.json");
     }
 

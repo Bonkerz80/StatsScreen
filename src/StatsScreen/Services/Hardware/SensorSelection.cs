@@ -217,29 +217,6 @@ public static partial class SensorSelection
     private static int DiscreteGpuPriority(DetectedHardwareType hardwareType) =>
         hardwareType is DetectedHardwareType.GpuNvidia or DetectedHardwareType.GpuAmd ? 2 : 1;
 
-    private static bool HasUsableGpuTemperature(IEnumerable<HardwareSensorDescriptor> sensors) =>
-        sensors.Any(sensor =>
-            sensor.SensorType == DetectedSensorType.Temperature &&
-            sensor.Value.HasValue &&
-            !ContainsAny(sensor.SensorName, "hot spot", "hotspot", "junction", "memory", "vrm"));
-
-    private static bool HasUsableGpuPower(IEnumerable<HardwareSensorDescriptor> sensors) =>
-        sensors.Any(sensor =>
-            sensor.SensorType == DetectedSensorType.Power &&
-            sensor.Value.HasValue &&
-            !ContainsAny(
-                sensor.SensorName,
-                "limit",
-                "rail",
-                "pin",
-                "connector",
-                "pcie",
-                "memory",
-                "core",
-                "12v",
-                "input",
-                "output"));
-
     private static bool ContainsAny(string value, params string[] terms) =>
         terms.Any(term => value.Contains(term, StringComparison.OrdinalIgnoreCase));
 

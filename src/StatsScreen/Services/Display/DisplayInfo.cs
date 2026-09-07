@@ -14,5 +14,8 @@ public sealed record DisplayInfo(
     public string DisplayLabel =>
         $"{DisplayName}  ·  {ResolutionText}{(IsPrimary ? "  ·  Primary" : string.Empty)}";
 
+    public string MenuLabel =>
+        $"{DisplayName} - {ResolutionText}{(IsPrimary ? "  (Primary)" : string.Empty)}";
+
     public bool IsTargetSize => Width == 800 && Height == 600;
 }

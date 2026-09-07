@@ -1,15 +1,14 @@
-# Stats Screen 0.1.1 verification — 7 September 2026
+# Stats Screen 0.2.0 verification — 7 September 2026
 
-- Release build succeeded. Eight sensor/presentation regression tests passed.
-- Live elevated dashboard run: eight real hardware snapshots, UI values updated, clean exit, no warning/error entries in diagnostic log.
-- CPU: AMD Ryzen 7 9800X3D, `Core (Tctl/Tdie)` and `Package`. Individual core temperatures were not exposed in the inventory. The UI visibly labels the fallback.
-- GPU: AMD Radeon RX 9070 XT, `GPU Core` and `GPU Package`. Integrated Radeon SoC readings are no longer selected.
-- Self-contained x64 publish packaged with Inno Setup 6.7.3.
-- Setup installed successfully, with desktop shortcut and optional elevated interactive sign-in task. The task's executable and Highest run level were inspected.
-- Installed executable ran eight additional samples and exited successfully. Final displayed values: CPU 60.9 °C, GPU 56.0 °C, CPU 65.7 W, GPU 52.0 W. These are observed samples, not fixed/example readings in the app.
-- Reinstallation with startup unchecked succeeded and removed the startup task.
-- Uninstall succeeded, removed the installed executable and desktop shortcut, and left shared PawnIO running. The test installation has been removed; the setup EXE remains ready for the user to install.
+- Current HEAD was inspected before editing: `551cee4` (`0.1.1`), with a clean working tree.
+- Release solution build succeeded after the dashboard changes.
+- Nineteen automated tests passed, including the existing sensor-selection coverage and new temperature, hardware-name, settings-persistence, missing-value, and polling-restart tests.
+- Self-contained x64 publish and Inno Setup 6.7.3 packaging succeeded as `StatsScreen-Setup-0.2.0.exe`.
+- The hosted diagnostic run exited with code 0 and rendered a complete 800 × 600 dashboard preview without clipping or scrollbars.
+- The diagnostic run detected and displayed `Radeon RX 9070 XT`, GPU core temperature, GPU package power, and shortened hardware names. It was intentionally non-elevated in this environment, so CPU temperature was `N/A` and CPU power was unreadable for that run.
+- Existing CPU `Tctl/Tdie` fallback selection and the deterministic discrete-GPU sensor selection were left in the hardware backend; the earlier elevated target-PC validation remains the evidence for those readings.
+- The final build emitted `NU1900` restore warnings because the NuGet vulnerability feed was unavailable; there were no compilation errors or warnings caused by the dashboard changes.
 
-Evidence: `artifacts/sensor-check/`, `artifacts/installed-check/`, `artifacts/install-test.log`. The diagnostic previews are rendered from the actual WPF window.
+Evidence: `artifacts/sensor-check-0.2.0-final/`, including the rendered `dashboard.png` and diagnostic log. The final diagnostic UI values were `N/A`, `55.0`, `0.0`, and `53.0` for CPU temperature, GPU temperature, CPU power, and GPU power respectively.
 
-Limits: no Windows reboot/sign-out performed; actual sign-in triggering remains untested. PawnIO 2.2.0 was already installed, so its missing-driver/reboot path was not exercised. Physical secondary-monitor fullscreen and mixed-DPI transitions still require checking on the dedicated screen. No claim of calibration against an independent instrument. Stats Screen and its setup are unsigned; the bundled PawnIO installer signature was verified as valid.
+Remaining checks: use the installer on the physical 800 × 600 HDMI LCD to confirm mixed-DPI positioning, fullscreen entry/exit, and right-click menu placement on that monitor. A Windows elevation consent prompt was not interactable in this development session, so the new installer’s elevated live-sensor path should be checked during that physical-device run.

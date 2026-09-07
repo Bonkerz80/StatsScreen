@@ -8,7 +8,7 @@ namespace StatsScreen.Services.Polling;
 public sealed class SensorPollingService : IDisposable
 {
     private readonly object _sync = new();
-    private readonly HardwareMonitorService _hardwareMonitor;
+    private readonly IHardwareSnapshotSource _hardwareMonitor;
     private readonly IAppLogger _logger;
     private CancellationTokenSource? _cancellationTokenSource;
     private Task? _pollingTask;
@@ -16,7 +16,7 @@ public sealed class SensorPollingService : IDisposable
     private bool _disposed;
 
     public SensorPollingService(
-        HardwareMonitorService hardwareMonitor,
+        IHardwareSnapshotSource hardwareMonitor,
         IAppLogger logger,
         int intervalMilliseconds)
     {

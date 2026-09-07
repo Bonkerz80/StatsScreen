@@ -2,6 +2,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using StatsScreen.Models;
+using StatsScreen.Services.Temperature;
 
 namespace StatsScreen.ViewModels;
 
@@ -12,7 +13,29 @@ public sealed class MetricViewModel : INotifyPropertyChanged
     private string _sourceText = string.Empty;
     private bool _isAvailable;
     private string _detailText = "WAITING FOR SENSOR";
+    private TemperatureStatus _temperatureStatus = TemperatureStatus.Unavailable;
+    private double _temperaturePercent;
+
+    public MetricViewModel(bool isTemperature = false)
+    {
+        IsTemperature = isTemperature;
+    }
+
+    public bool IsTemperature { get; }
+
     public string DetailText { get => _detailText; private set => SetField(ref _detailText, value); }
+
+    public TemperatureStatus TemperatureStatus
+    {
+        get => _temperatureStatus;
+        private set => SetField(ref _temperatureStatus, value);
+    }
+
+    public double TemperaturePercent
+    {
+        get => _temperaturePercent;
+        private set => SetField(ref _temperaturePercent, value);
+    }
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -49,6 +72,12 @@ public sealed class MetricViewModel : INotifyPropertyChanged
             SourceText = metric.Source;
             DetailText = metric.Source.Contains("Tctl/Tdie", StringComparison.OrdinalIgnoreCase) ? "Tctl/Tdie · CPU FALLBACK" :
                 metric.Source.Contains("Tdie", StringComparison.OrdinalIgnoreCase) ? "Tdie · CPU FALLBACK" : "LIVE SENSOR";
+            TemperatureStatus = IsTemperature
+                ? TemperatureStatusRules.Classify(value)
+                : TemperatureStatus.Unavailable;
+            TemperaturePercent = IsTemperature
+                ? TemperatureStatusRules.ToDisplayPercent(value)
+                : 0;
             IsAvailable = true;
             return;
         }
@@ -57,6 +86,8 @@ public sealed class MetricViewModel : INotifyPropertyChanged
         UnitText = string.Empty;
         SourceText = string.Empty;
         DetailText = "SENSOR UNAVAILABLE";
+        TemperatureStatus = TemperatureStatus.Unavailable;
+        TemperaturePercent = 0;
         IsAvailable = false;
     }
 

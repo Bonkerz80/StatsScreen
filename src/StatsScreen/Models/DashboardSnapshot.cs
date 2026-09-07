@@ -7,7 +7,9 @@ public sealed record DashboardSnapshot(
     SensorMetric GpuPower,
     DateTimeOffset CapturedAt,
     string Status,
-    bool IsHardwareAvailable)
+    bool IsHardwareAvailable,
+    string CpuHardwareName = "",
+    string GpuHardwareName = "")
 {
     public static DashboardSnapshot Unavailable(string status) => new(
         SensorMetric.Missing("°C"),

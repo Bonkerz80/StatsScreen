@@ -1,21 +1,21 @@
 # Stats Screen
 
-Stats Screen is a purpose-built .NET 8 WPF dashboard for an 800 × 600 secondary display. Version 0.1.1 reads four live values through `LibreHardwareMonitorLib`:
+Stats Screen is a purpose-built .NET 8 WPF dashboard for an 800 × 600 secondary display. Version 0.2.0 reads four live values through `LibreHardwareMonitorLib`:
 
 - maximum available CPU core temperature
 - main GPU core temperature
 - CPU package power
 - total GPU board/package power
 
-The UI is intentionally limited to the 2 × 2 dashboard. Sensor polling is kept off the WPF UI thread, and a missing sensor is displayed as `N/A` rather than treated as a fatal error.
+The UI is a purpose-built instrumentation display: temperatures dominate the upper half, power sits below, and detected CPU/GPU names form a compact status strip. Sensor polling is kept off the WPF UI thread, and a missing sensor is displayed as `N/A` rather than treated as a fatal error.
 
-[Download the Windows installer for Stats Screen 0.1.1](https://github.com/Bonkerz80/StatsScreen/releases/latest/download/StatsScreen-Setup-0.1.1.exe)
+[Download the Windows installer for Stats Screen 0.2.0](https://github.com/Bonkerz80/StatsScreen/releases/latest/download/StatsScreen-Setup-0.2.0.exe)
 
 ![Stats Screen dashboard preview](docs/dashboard.png)
 
-## Install and first run (0.1.1)
+## Install and first run (0.2.0)
 
-Download and run `StatsScreen-Setup-0.1.1.exe`, or run `artifacts/installer/StatsScreen-Setup-0.1.1.exe` after building locally. The installer includes the .NET runtime, installs to Program Files, creates a Start menu entry, and offers a desktop shortcut (selected by default).
+Download and run `StatsScreen-Setup-0.2.0.exe`, or run `artifacts/installer/StatsScreen-Setup-0.2.0.exe` after building locally. The installer includes the .NET runtime, installs to Program Files, creates a Start menu entry, and offers a desktop shortcut (selected by default).
 
 **Start with Windows** is optional and initially unchecked. It creates a scheduled task for the account running setup with interactive sign-in and administrator privileges; no password is stored. Run setup again and change the checkbox to enable/disable it. For an account using different administrator credentials, the startup task belongs to that administrator account.
 

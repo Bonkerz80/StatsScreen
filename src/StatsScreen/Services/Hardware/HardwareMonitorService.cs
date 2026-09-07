@@ -4,7 +4,7 @@ using StatsScreen.Services.Logging;
 
 namespace StatsScreen.Services.Hardware;
 
-public sealed class HardwareMonitorService : IDisposable
+public sealed class HardwareMonitorService : IHardwareSnapshotSource, IDisposable
 {
     private readonly object _sync = new();
     private readonly IAppLogger _logger;

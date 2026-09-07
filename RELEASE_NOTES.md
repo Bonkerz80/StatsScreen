@@ -1,16 +1,21 @@
-# Stats Screen v0.1.1
+# Stats Screen v0.2.0
 
-The first public Windows release of Stats Screen.
+This feature release turns the working four-value monitor into a purpose-built 800 × 600 PC instrumentation display.
 
 Highlights:
 
-- Self-contained x64 installer for Windows 10 and later.
-- Live CPU temperature, GPU temperature, CPU package power, and GPU board/package power tiles.
-- Deterministic selection of the discrete Radeon RX 9070 XT instead of the integrated Radeon graphics device on the tested PC.
-- Visible `Tctl/Tdie · CPU FALLBACK` label when the processor does not expose numbered core temperatures.
-- Optional desktop shortcut and optional elevated sign-in task.
-- Signed PawnIO 2.2.0 installer bundled for hardware access when needed.
+- Dominant CPU and GPU temperature panels with large, distance-readable values.
+- Restrained temperature strips with normal, warm, and hot colour bands.
+- Smaller but prominent CPU POWER and GPU POWER panels.
+- Compact detected hardware identification strip with shortened friendly names.
+- Right-click anywhere opens the dark StatsScreen menu at the pointer.
+- Mouse controls for fullscreen, monitor selection, startup mode, polling interval, settings, diagnostics, and exit.
+- Monitor changes move an active fullscreen window immediately and save the selection.
+- Polling interval changes restart the existing single polling loop without overlap.
+- Existing LibreHardwareMonitor sensor selection, CPU fallback labeling, display handling, and keyboard shortcuts are preserved.
 
-Validation covered the release build, eight automated sensor/presentation tests, real elevated readings, installation, startup-task creation/removal, and uninstall. See [VERIFICATION.md](VERIFICATION.md) for the detailed record and known limits.
+The release is validated by the existing sensor-selection tests plus focused presentation, settings, and polling tests. The self-contained x64 installer is attached to the GitHub v0.2.0 release.
 
-[Download StatsScreen-Setup-0.1.1.exe](https://github.com/Bonkerz80/StatsScreen/releases/download/v0.1.1/StatsScreen-Setup-0.1.1.exe)
+## Previous release
+
+The published 0.1.1 installer remains available from the [StatsScreen GitHub release page](https://github.com/Bonkerz80/StatsScreen/releases/tag/v0.1.1).

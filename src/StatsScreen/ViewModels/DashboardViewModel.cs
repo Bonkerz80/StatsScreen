@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using StatsScreen.Models;
+using StatsScreen.Services.Presentation;
 
 namespace StatsScreen.ViewModels;
 
@@ -8,11 +9,13 @@ public sealed class DashboardViewModel : INotifyPropertyChanged
 {
     private string _statusText = "STARTING";
     private string _lastUpdateText = "Waiting for hardware";
+    private string _cpuHardwareText = "CPU";
+    private string _gpuHardwareText = "GPU";
 
     public DashboardViewModel()
     {
-        CpuTemperature = new MetricViewModel();
-        GpuTemperature = new MetricViewModel();
+        CpuTemperature = new MetricViewModel(isTemperature: true);
+        GpuTemperature = new MetricViewModel(isTemperature: true);
         CpuPower = new MetricViewModel();
         GpuPower = new MetricViewModel();
     }
@@ -39,12 +42,26 @@ public sealed class DashboardViewModel : INotifyPropertyChanged
         private set => SetField(ref _lastUpdateText, value);
     }
 
+    public string CpuHardwareText
+    {
+        get => _cpuHardwareText;
+        private set => SetField(ref _cpuHardwareText, value);
+    }
+
+    public string GpuHardwareText
+    {
+        get => _gpuHardwareText;
+        private set => SetField(ref _gpuHardwareText, value);
+    }
+
     public void Apply(DashboardSnapshot snapshot)
     {
         CpuTemperature.Apply(snapshot.CpuTemperature);
         GpuTemperature.Apply(snapshot.GpuTemperature);
         CpuPower.Apply(snapshot.CpuPower);
         GpuPower.Apply(snapshot.GpuPower);
+        CpuHardwareText = HardwareNameFormatter.FormatCpu(snapshot.CpuHardwareName);
+        GpuHardwareText = HardwareNameFormatter.FormatGpu(snapshot.GpuHardwareName);
         StatusText = snapshot.Status;
         LastUpdateText = snapshot.IsHardwareAvailable
             ? $"Updated {snapshot.CapturedAt.LocalDateTime:HH:mm:ss}"

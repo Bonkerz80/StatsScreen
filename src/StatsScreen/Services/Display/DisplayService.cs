@@ -81,6 +81,26 @@ public sealed class DisplayService
             SwpNoActivate | SwpShowWindow);
     }
 
+    public void MoveDisplayMode(Window window, DisplayInfo display)
+    {
+        WindowInteropHelper helper = new(window);
+        IntPtr handle = helper.Handle;
+        if (handle == IntPtr.Zero)
+        {
+            _logger.Warning("Display mode move requested before the window had a native handle.");
+            return;
+        }
+
+        SetWindowPos(
+            handle,
+            HwndTopmost,
+            display.X,
+            display.Y,
+            display.Width,
+            display.Height,
+            SwpNoActivate | SwpShowWindow);
+    }
+
     public void ExitDisplayMode(Window window)
     {
         WindowInteropHelper helper = new(window);

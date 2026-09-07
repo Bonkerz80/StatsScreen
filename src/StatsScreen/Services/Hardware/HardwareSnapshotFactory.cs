@@ -26,8 +26,15 @@ public static class HardwareSnapshotFactory
             ToMetric(gpuPower, "W"),
             capturedAt,
             hasAnyReading ? "LIVE" : "NO TARGET SENSORS",
-            hasAnyReading);
+            hasAnyReading,
+            HardwareName(cpuTemperature, cpuPower),
+            HardwareName(gpuTemperature, gpuPower));
     }
+
+    private static string HardwareName(
+        HardwareSensorDescriptor? primary,
+        HardwareSensorDescriptor? secondary) =>
+        primary?.HardwareName ?? secondary?.HardwareName ?? string.Empty;
 
     private static SensorMetric ToMetric(HardwareSensorDescriptor? sensor, string unit)
     {
