@@ -1,18 +1,17 @@
-# Stats Screen v0.2.2
+# Stats Screen v0.2.3
 
-This update adds restrained, user-selectable colour accents to the existing 800 × 600 instrumentation dashboard without changing the hardware-monitoring backend or layout dimensions.
+This small patch improves Settings-window readability on the physical 800 × 600 display while preserving the existing dashboard and colour customisation work.
 
 Highlights:
 
-- Added a central predefined palette: cyan, blue, green, lime, amber, orange, red, pink, purple, white, and grey.
-- Added **Colours** to the existing right-click menu with CPU Temperature, GPU Temperature, CPU Power, GPU Power, checked selections, colour swatches, and **Reset Colours**.
-- Applies colour choices immediately and persists stable palette names in the existing settings file.
-- Uses the selected CPU/GPU temperature accents for the related hardware names in the bottom strip.
-- Keeps temperature warnings authoritative: amber from 70 °C, red from 85 °C, and the selected normal accent restored below 70 °C.
-- Keeps temperature values readable, with colour concentrated in headings, bars, borders, units, thin power accents, and hardware names.
-- Preserves sensor selection, polling, logging, settings, fullscreen/display handling, right-click controls, installer behaviour, and the 800 × 600 layout.
+- Replaced the theme-dependent ComboBox appearance with an explicit dark StatsScreen template, including a visible arrow, selected text, border, focus state, and popup placement.
+- Added an explicit high-contrast ComboBoxItem template for normal, highlighted, selected, and disabled dropdown items.
+- Added a deliberate dark TextBox template with bright text, visible caret, readable selection colours, focus border, and larger input sizing.
+- Added a StatsScreen CheckBox template with a visible unchecked border, clear checked mark, hover state, and keyboard focus state.
+- Increased Settings-window contrast and typography, enlarged the window to 560 × 420, and made Save more prominent without changing the dashboard layout.
+- Preserved monitor selection, polling interval, colour settings, cancellation behaviour, sensor selection, polling, logging, fullscreen/display handling, installer behaviour, and the 800 × 600 dashboard.
 
-The update includes focused persistence, invalid-settings, reset, dashboard-accent, and warning-override tests. The self-contained x64 installer is built locally for validation; the v0.2.2 GitHub release is intentionally not published yet.
+The update retains the v0.2.2 palette and colour menu unchanged. The self-contained x64 installer is built locally for validation; the v0.2.3 GitHub release is intentionally not published yet.
 
 ## Previous release
 

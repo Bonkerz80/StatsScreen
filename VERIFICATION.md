@@ -1,36 +1,39 @@
-# Stats Screen 0.2.2 verification — 8 September 2026
+# Stats Screen 0.2.3 verification — 8 September 2026
 
-- Current HEAD was inspected before editing: `fd9bb71` (`Polish dashboard presentation for 0.2.1`), with a clean working tree and `main` synchronized with `origin/main`.
-- The update adds four persisted accent selections, a central named palette, live right-click menu updates, reset behaviour, and temperature warning overrides without changing the sensor backend or 800 × 600 layout.
-- Thirty-six automated tests passed, including existing sensor-selection, settings, and polling coverage plus colour persistence, invalid-settings fallback, reset, palette-default, accent binding, and warning-override tests.
-- Release build succeeded, followed by self-contained x64 publish and Inno Setup 6.7.3 packaging as `StatsScreen-Setup-0.2.2.exe`.
-- Installer size: 53,899,253 bytes.
-- Installer SHA256: `023720B088F0A1CEB65BD7A9A4091F04F4239A28624049179A5F150E289C0F04`.
-- The diagnostic dashboard rendered at 800 × 600 without clipping or scrollbars. It picked up the existing local Blue/Red accent selections, demonstrating persisted custom colours across the temperature cards, power headings/units, thin power accents, and related hardware names while the panel backgrounds remained dark.
-- The non-elevated diagnostic rendered a partial-reading state with CPU temperature `N/A`, GPU temperature `56.0`, CPU power `0.0`, GPU power `53.0`, and centre status `SENSOR ERROR`.
-- Default cyan/blue/amber/purple keys, old-settings fallback, invalid-settings fallback, and reset behaviour are covered by automated tests; the diagnostic did not overwrite the user’s existing settings.
-- The warning override path is covered by focused tests: normal temperature returns the selected accent, 70 °C changes the value/bar to amber, 85 °C changes them to red, and a later normal reading restores the selected accent.
+- Current local HEAD was inspected before editing: `c409353` (`Add configurable dashboard colours for 0.2.2`), with a clean working tree and `main` one commit ahead of `origin/main`.
+- No uncommitted local work existed before this focused Settings-window change.
+- The existing dashboard colour customisation, sensor backend, settings persistence, monitor selection, polling, logging, fullscreen handling, right-click menu, and 800 × 600 layout were preserved.
+- Thirty-six automated tests passed, including the existing sensor-selection, settings, polling, and colour-customisation coverage.
+- Release build, self-contained x64 publish, and Inno Setup 6.7.3 packaging succeeded as `StatsScreen-Setup-0.2.3.exe`.
+- Installer size: 53,916,603 bytes.
+- Installer SHA256: `00193A4D380291B9694D49D1CD99F55213D5DEA33B4F82ED1E7F869EEAD28823`.
 
-Evidence: `artifacts/sensor-check-0.2.2-final/`, including `dashboard.png` and the diagnostic log.
+## Settings-window fix
 
-## Colour behaviour
+The ComboBox problem came from relying on the generic WPF ComboBox style: changing `Foreground`, `Background`, and `BorderBrush` did not replace the standard control template, its theme-dependent toggle button, or its popup item containers. Those template parts could still use Windows system-theme colours, producing a light input area and unreadable selected text on the LCD.
 
-The predefined palette is Cyan `#4DC6C7`, Blue `#5F9FEA`, Green `#6CCB8A`, Lime `#A8C95D`, Amber `#D5A85B`, Orange `#E38B57`, Red `#D96B6B`, Pink `#D38AB5`, Purple `#B98BE7`, White `#E6EDF3`, and Grey `#8C9AA8`.
+The fix adds named shared resources and explicit templates for `StatsComboBoxStyle`, `StatsComboBoxItemStyle`, `StatsTextBoxStyle`, and `StatsCheckBoxStyle`. The ComboBox now controls its closed surface, arrow, focus state, popup background, item text, hover, selected, and disabled states. The TextBox explicitly controls its content host, caret, selection colours, focus border, and disabled state. The CheckBox explicitly controls its unchecked border, checked mark, hover, pressed, focus, and disabled states.
 
-Defaults are CPU temperature Cyan, GPU temperature Blue, CPU power Amber, and GPU power Purple. The right-click **Colours** submenu uses stable palette names, marks the active choice with the native WPF check state and a swatch, saves immediately, updates the ViewModel without restarting polling, and provides **Reset Colours**.
+Settings text was raised to a stronger hierarchy: white 22 px title, bright 13–14 px labels, `#AEBCC9` explanatory text, 15 px input/control text, 13 px shortcut help, and a 560 × 420 non-fullscreen window. Save uses a slightly stronger accent while Cancel retains the normal dark button treatment.
 
-Settings loading tolerates missing colour properties from older files and invalid names; each section falls back to its own default. Only stable strings are persisted, not WPF brushes.
+## UI verification status
 
-## CPU power zero-reading finding
+- The WPF templates compile successfully and the Settings window remains within the intended 800 × 600 display.
+- Closed-state styling is explicit in the XAML resources: dark `#151D26` surfaces, bright text, visible `#526779` borders, 36–38 px controls, a custom dropdown arrow, and focus outlines.
+- Dropdown item styling is explicit for normal, hover/highlight, selected, and disabled states; it no longer relies on Windows light/dark theme colours.
+- TextBox selection/caret, CheckBox checked/unchecked, and button hover/pressed/focus states are explicitly styled.
+- Native interactive popup inspection was not available in this environment, so the opened ComboBox popup and physical off-axis LCD readability still require confirmation on the target machine. The implementation specifically covers the popup template and item containers rather than relying on a closed-state screenshot.
 
-The current application descriptor carries the Libre Hardware Monitor sensor value as `float?` and does not carry a per-sensor readable/permission flag. In the non-elevated log, CPU `Core (Tctl/Tdie)` and CPU `Package` both reported numeric zero while GPU readings remained available. There is therefore no reliable application-level distinction between a genuine readable zero and a permission-related zero in this data path.
+## Existing dashboard verification
 
-The update does not blanket-convert zero watts to `N/A`, preserving genuine zero readings. A missing CPU temperature causes the dashboard to show `SENSOR ERROR`, while the CPU power value remains the value supplied by the library. The existing regression test confirms that a descriptor-provided zero is preserved.
+The dashboard colour work remains covered by the existing 800 × 600 diagnostic render and 36-test suite. The CPU/GPU colour settings and temperature warning override behaviour were not changed in this patch. The final non-elevated diagnostic logged CPU temperature `N/A`, GPU temperature `49.0`, CPU power `0.0`, GPU power `51.0`, and centre status `SENSOR ERROR` without clipping or layout changes.
+
+Evidence: `artifacts/sensor-check-0.2.3-final/`, including `dashboard.png` and the diagnostic log.
 
 ## Remaining physical checks
 
-- Run the v0.2.2 installer on the physical 800 × 600 HDMI LCD to confirm mixed-DPI positioning, fullscreen entry/exit, right-click menu placement, submenu usability, and hardware-strip readability.
+- Run the v0.2.3 installer on the physical 800 × 600 HDMI LCD to confirm closed/open ComboBox readability, selected/hovered item contrast, TextBox selection, CheckBox states, mixed-DPI positioning, and button focus states.
 - Run the installed executable interactively with administrator consent to validate the elevated CPU temperature and CPU package power path on the target PC.
-- The v0.2.2 GitHub release was intentionally not published; v0.2.0 remains the latest published installer.
+- The v0.2.3 GitHub release was intentionally not published; v0.2.0 remains the latest published installer.
 
 The build emitted `NU1900` restore warnings because the NuGet vulnerability feed was unavailable; there were no compilation errors or dashboard-related build warnings.

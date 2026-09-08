@@ -1,4 +1,4 @@
-Stats Screen 0.2.2
+Stats Screen 0.2.3
 
 This setup installs the dashboard with its own .NET runtime.
 CPU sensor access requires administrator privileges. Windows will ask for permission when you open the app manually.
