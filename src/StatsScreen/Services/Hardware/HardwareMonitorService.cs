@@ -1,6 +1,7 @@
 using LibreHardwareMonitor.Hardware;
 using StatsScreen.Models;
 using StatsScreen.Services.Logging;
+using StatsScreen.Services.Hardware.GraniteRidge;
 
 namespace StatsScreen.Services.Hardware;
 
@@ -8,15 +9,17 @@ public sealed class HardwareMonitorService : IHardwareSnapshotSource, IDisposabl
 {
     private readonly object _sync = new();
     private readonly IAppLogger _logger;
+    private readonly GraniteRidgeTemperatureProvider _coreProvider;
     private Computer? _computer;
     private string? _lastInventorySignature;
     private string? _lastLoggedSelectionSignature;
     private bool _disposed;
     private readonly HashSet<string> _failedHardware = new();
 
-    public HardwareMonitorService(IAppLogger logger)
+    public HardwareMonitorService(IAppLogger logger, bool diagnostic = false)
     {
         _logger = logger;
+        _coreProvider = new GraniteRidgeTemperatureProvider(logger, diagnostic);
     }
 
     public DashboardSnapshot ReadSnapshot()
@@ -40,6 +43,15 @@ public sealed class HardwareMonitorService : IHardwareSnapshotSource, IDisposabl
                 DashboardSnapshot snapshot = HardwareSnapshotFactory.CreateSnapshot(
                     descriptors,
                     DateTimeOffset.Now);
+
+                var tctl = descriptors.FirstOrDefault(s => s.HardwareType == DetectedHardwareType.Cpu &&
+                    s.SensorType == DetectedSensorType.Temperature && s.Value is { } value && float.IsFinite(value) && value > 0 && value < 125 &&
+                    (s.SensorName.Contains("Tctl/Tdie", StringComparison.OrdinalIgnoreCase) || s.SensorName.Equals("Tdie", StringComparison.OrdinalIgnoreCase)));
+                snapshot = snapshot with
+                {
+                    TctlTdie = tctl is null ? null : new SensorMetric(tctl.Value, "°C", tctl.SensorName),
+                    CoreTemperatures = _coreProvider.Read(tctl?.Value ?? snapshot.CpuTemperature.Value)
+                };
 
                 if (_lastInventorySignature is not null &&
                     !string.Equals(_lastLoggedSelectionSignature, _lastInventorySignature, StringComparison.Ordinal))
@@ -66,6 +78,7 @@ public sealed class HardwareMonitorService : IHardwareSnapshotSource, IDisposabl
                 return;
 
             _disposed = true;
+            _coreProvider.Dispose();
             try
             {
                 _computer?.Close();

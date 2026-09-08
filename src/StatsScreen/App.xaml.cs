@@ -24,7 +24,7 @@ public partial class App : System.Windows.Application
         var settingsService = new SettingsService(_logger);
         AppSettings settings = settingsService.Load();
         var displayService = new DisplayService(_logger);
-        _hardwareMonitor = new HardwareMonitorService(_logger);
+        _hardwareMonitor = new HardwareMonitorService(_logger, diagnostic);
         _pollingService = new SensorPollingService(_hardwareMonitor, _logger, settings.PollIntervalMilliseconds);
 
         var window = new MainWindow(
@@ -43,6 +43,8 @@ public partial class App : System.Windows.Application
             _pollingService.SnapshotAvailable += (_, snapshot) =>
             {
                 _logger.Info(System.Text.Json.JsonSerializer.Serialize(snapshot));
+                var selected = CpuTemperatureSelection.Apply(snapshot, settings.CpuTemperatureSource);
+                _logger.Info($"Dashboard CPU preference={settings.CpuTemperatureSource}; actual={selected.CpuTemperature.Source}; value={selected.CpuTemperature.Value}; Tctl/Tdie={snapshot.TctlTdie?.Value}");
                 if (++samples == 8)
                     Dispatcher.BeginInvoke(new Action(() =>
                     {

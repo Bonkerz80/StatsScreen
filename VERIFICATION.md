@@ -1,4 +1,40 @@
-# Stats Screen 0.2.3 verification — 8 September 2026
+# Stats Screen 0.3.0 verification — 8 September 2026
+
+- Inspected local HEAD f0902d765b04649e6595e4f8e179358bf70ab5a7 (version 0.2.3),
+  clean working tree, three commits ahead of origin/main. Inspected all three
+  recent colour/settings commits. No local changes were discarded.
+- Implemented experimental read-only Granite Ridge provider and immediate,
+  persistent CPU Temperature Source submenu. Existing dashboard XAML, settings
+  control styles, accents and warnings remain intact.
+- 74 tests passed: the original 36 plus 38 cases covering offsets, complete core
+  extraction, max/index/average, invalid floats and sizes, version gates, identity
+  gates, failure disposal, stale data, Auto/explicit selection and persistence.
+- Release build, self-contained win-x64 publish and Inno Setup 6.7.3 packaging
+  succeeded. Local installer: artifacts/installer/StatsScreen-Setup-0.3.0.exe.
+  Size: 54,969,824 bytes. SHA256:
+  16BA8230F1B77F2F35D4196C94BA39C3CFC8FC296D82E7C7AC4F905A94265CFF.
+- NU1900 warnings: vulnerability-feed metadata unavailable. No compilation errors.
+- Real diagnostic exited successfully and rendered the dashboard. CPU detected:
+  AuthenticAMD Ryzen 7 9800X3D, family 0x1A, model 0x44, eight cores, one package.
+  PawnIO installed version 2.2.0.0; execution was non-elevated. Driver access was
+  denied. The signed module could not be loaded, so PM version is unknown.
+- 0x620105 and indices 317–324 are confirmed against the reference map, NOT
+  confirmed by local hardware. Core 0–7, max/core number and average are unavailable.
+  LHM Tctl/Tdie returned zero in inventory (rejected as unavailable), so no valid
+  aggregate comparison was possible. Auto used existing LHM fallback selection.
+- Last UI values: CPU temperature N/A; GPU 57.0 °C; CPU power 0.0 W; GPU power
+  54.0 W; SENSOR ERROR. This preserves the existing non-elevated CPU access
+  limitation; it is not a successful per-core hardware verification.
+- Evidence: artifacts/sensor-check-0.3.0-final/dashboard.png and
+  stats-screen-20260908.log. Screenshot inspected: no dashboard clipping; saved
+  blue/red colours preserved. Interactive source-menu and physical LCD checks
+  remain unverified in this environment.
+- Research, licences, exact module hash/source and read-only boundary are in
+  docs/GRANITE-RIDGE.md. No private reflection or additional driver was introduced.
+- No push or GitHub release was performed. Administrator-run diagnostics are
+  still required. If the actual PM version differs, STOP without reading offsets.
+
+## Historical 0.2.3 verification
 
 - Current local HEAD was inspected before editing: `c409353` (`Add configurable dashboard colours for 0.2.2`), with a clean working tree and `main` one commit ahead of `origin/main`.
 - No uncommitted local work existed before this focused Settings-window change.

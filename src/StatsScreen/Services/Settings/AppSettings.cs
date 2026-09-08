@@ -1,9 +1,11 @@
 using StatsScreen.Services.Presentation;
+using StatsScreen.Services.Hardware;
 
 namespace StatsScreen.Services.Settings;
 
 public sealed class AppSettings
 {
+    public CpuTemperatureSource CpuTemperatureSource { get; set; } = CpuTemperatureSource.Auto;
     public string? MonitorDeviceName { get; set; }
 
     public bool StartInDisplayMode { get; set; }
@@ -20,6 +22,7 @@ public sealed class AppSettings
 
     public AppSettings Clone() => new()
     {
+        CpuTemperatureSource = CpuTemperatureSource,
         MonitorDeviceName = MonitorDeviceName,
         StartInDisplayMode = StartInDisplayMode,
         PollIntervalMilliseconds = PollIntervalMilliseconds,
@@ -31,6 +34,7 @@ public sealed class AppSettings
 
     public void Normalize()
     {
+        if (!Enum.IsDefined(CpuTemperatureSource)) CpuTemperatureSource = CpuTemperatureSource.Auto;
         PollIntervalMilliseconds = Math.Clamp(PollIntervalMilliseconds, 250, 10_000);
         CpuTemperatureAccent = AccentPalette.NormalizeKey(
             CpuTemperatureAccent,

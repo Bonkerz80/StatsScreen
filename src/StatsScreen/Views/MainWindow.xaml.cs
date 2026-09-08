@@ -10,6 +10,7 @@ using StatsScreen.Services.Logging;
 using StatsScreen.Services.Polling;
 using StatsScreen.Services.Presentation;
 using StatsScreen.Services.Settings;
+using StatsScreen.Services.Hardware;
 using StatsScreen.ViewModels;
 
 namespace StatsScreen.Views;
@@ -26,6 +27,7 @@ public partial class MainWindow : Window
     private AppSettings _settings;
     private Rect? _normalWindowBounds;
     private bool _isDisplayMode;
+    private DashboardSnapshot? _latestSnapshot;
 
     public MainWindow(
         AppSettings settings,
@@ -64,7 +66,11 @@ public partial class MainWindow : Window
         if (Dispatcher.HasShutdownStarted)
             return;
 
-        _ = Dispatcher.BeginInvoke(new Action(() => { if (IsLoaded) ViewModel.Apply(snapshot); }));
+        _ = Dispatcher.BeginInvoke(new Action(() =>
+        {
+            _latestSnapshot = snapshot;
+            if (IsLoaded) ViewModel.Apply(CpuTemperatureSelection.Apply(snapshot, _settings.CpuTemperatureSource));
+        }));
     }
 
     private void Window_OnPreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
@@ -160,6 +166,7 @@ public partial class MainWindow : Window
 
         _contextMenu.Items.Add(pollingMenu);
         _contextMenu.Items.Add(BuildColoursMenu());
+        _contextMenu.Items.Add(BuildCpuSourceMenu());
         _contextMenu.Items.Add(CreateMenuItem("Settings...", (_, _) => OpenSettings()));
         _contextMenu.Items.Add(CreateMenuItem("Open Diagnostic Log Folder", (_, _) => OpenDiagnosticLogFolder()));
         _contextMenu.Items.Add(new Separator
@@ -181,6 +188,28 @@ public partial class MainWindow : Window
             item.Click += handler;
 
         return item;
+    }
+
+    private MenuItem BuildCpuSourceMenu()
+    {
+        var menu = CreateMenuItem("CPU Temperature Source");
+        foreach (CpuTemperatureSource source in Enum.GetValues<CpuTemperatureSource>())
+        {
+            var item = CreateMenuItem(CpuTemperatureSelection.Label(source), (_, _) =>
+            {
+                if (_latestSnapshot is null || !CpuTemperatureSelection.IsAvailable(_latestSnapshot, source)) return;
+                _settings.CpuTemperatureSource = source;
+                _settingsService.Save(_settings);
+                ViewModel.Apply(CpuTemperatureSelection.Apply(_latestSnapshot, source));
+                _logger.Info($"CPU temperature source selected: {source}; actual={ViewModel.CpuTemperature.SourceText}.");
+            });
+            item.IsCheckable = true;
+            item.IsChecked = source == _settings.CpuTemperatureSource;
+            item.IsEnabled = source == CpuTemperatureSource.Auto ||
+                (_latestSnapshot is not null && CpuTemperatureSelection.IsAvailable(_latestSnapshot, source));
+            menu.Items.Add(item);
+        }
+        return menu;
     }
 
     private MenuItem BuildColoursMenu()

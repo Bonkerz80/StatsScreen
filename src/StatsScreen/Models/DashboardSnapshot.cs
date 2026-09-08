@@ -11,6 +11,9 @@ public sealed record DashboardSnapshot(
     string CpuHardwareName = "",
     string GpuHardwareName = "")
 {
+    public CpuCoreTemperatureSnapshot? CoreTemperatures { get; init; }
+    public SensorMetric? TctlTdie { get; init; }
+
     public static DashboardSnapshot Unavailable(string status) => new(
         SensorMetric.Missing("°C"),
         SensorMetric.Missing("°C"),

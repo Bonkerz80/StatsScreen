@@ -1,4 +1,8 @@
 Stats Screen uses unmodified LibreHardwareMonitorLib 0.9.6 (MPL-2.0).
+Stats Screen also embeds the unmodified official signed RyzenSMU module from
+PawnIO.Modules 0.2.11 (LGPL-2.1-or-later). The licence and exact source archive
+are supplied in licenses/PawnIO-Modules-0.2.11. See docs/GRANITE-RIDGE.md in the
+StatsScreen source repository for provenance and the telemetry-only wrapper.
 Source for this version: https://github.com/LibreHardwareMonitor/LibreHardwareMonitor/tree/v0.9.6
 Its license and third-party notices accompany this application in licenses/.
 
