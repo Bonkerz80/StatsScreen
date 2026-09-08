@@ -35,11 +35,15 @@ public sealed class SensorSelectionTests
     }
 
     [Fact]
-    public void CpuFallbackIsVisibleAndClearsWhenUnavailable()
+    public void CpuTemperatureSourceIsVisibleAndClearsWhenUnavailable()
     {
-        var metric = new StatsScreen.ViewModels.MetricViewModel();
+        var metric = new StatsScreen.ViewModels.MetricViewModel(
+            isTemperature: true,
+            showTemperatureSource: true);
         metric.Apply(new SensorMetric(65, "°C", "Ryzen / Core (Tctl/Tdie)"));
-        Assert.Contains("Tctl/Tdie", metric.DetailText);
+        Assert.Equal("Tctl/Tdie", metric.DetailText);
+        Assert.DoesNotContain("CPU FALLBACK", metric.DetailText, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("LIVE SENSOR", metric.DetailText, StringComparison.OrdinalIgnoreCase);
         metric.Apply(SensorMetric.Missing("°C"));
         Assert.Equal("N/A", metric.ValueText);
         Assert.Equal("SENSOR UNAVAILABLE", metric.DetailText);

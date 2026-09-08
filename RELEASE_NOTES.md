@@ -1,21 +1,19 @@
-# Stats Screen v0.2.0
+# Stats Screen v0.2.1
 
-This feature release turns the working four-value monitor into a purpose-built 800 × 600 PC instrumentation display.
+This small visual update polishes the existing 800 × 600 PC instrumentation display without changing the hardware-monitoring backend.
 
 Highlights:
 
-- Dominant CPU and GPU temperature panels with large, distance-readable values.
-- Restrained temperature strips with normal, warm, and hot colour bands.
-- Smaller but prominent CPU POWER and GPU POWER panels.
-- Compact detected hardware identification strip with shortened friendly names.
-- Right-click anywhere opens the dark StatsScreen menu at the pointer.
-- Mouse controls for fullscreen, monitor selection, startup mode, polling interval, settings, diagnostics, and exit.
-- Monitor changes move an active fullscreen window immediately and save the selection.
-- Polling interval changes restart the existing single polling loop without overlap.
-- Existing LibreHardwareMonitor sensor selection, CPU fallback labeling, display handling, and keyboard shortcuts are preserved.
+- Removed the redundant TEMPERATURE heading and the heavy outer frame around the CPU/GPU temperature cards.
+- Kept the distance-readable temperature values and widened the temperature bars within the available card space.
+- Removed LIVE SENSOR, CPU FALLBACK, and the normal LIVE/updated timestamp text from the dashboard.
+- Shows the selected CPU temperature source as a short label such as Tctl/Tdie, Tdie, Core #3, or CPU Package.
+- Keeps GPU source text quiet during normal operation while showing SENSOR UNAVAILABLE when a temperature cannot be read.
+- Leaves the centre of the hardware strip blank during healthy operation and reserves it for important statuses.
+- Preserved the power layout, temperature thresholds, hardware names, right-click menu, display handling, polling, logging, and sensor-selection rules.
 
-The release is validated by the existing sensor-selection tests plus focused presentation, settings, and polling tests. The self-contained x64 installer is attached to the GitHub v0.2.0 release.
+The update is validated by the existing sensor-selection tests plus focused presentation, settings, polling, status, and zero-reading tests. The self-contained x64 installer is built locally for validation; the v0.2.1 GitHub release is intentionally not published yet.
 
 ## Previous release
 
-The published 0.1.1 installer remains available from the [StatsScreen GitHub release page](https://github.com/Bonkerz80/StatsScreen/releases/tag/v0.1.1).
+The published 0.2.0 installer remains available from the [StatsScreen GitHub release page](https://github.com/Bonkerz80/StatsScreen/releases/tag/v0.2.0).

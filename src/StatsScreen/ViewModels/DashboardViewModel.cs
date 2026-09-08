@@ -7,14 +7,13 @@ namespace StatsScreen.ViewModels;
 
 public sealed class DashboardViewModel : INotifyPropertyChanged
 {
-    private string _statusText = "STARTING";
-    private string _lastUpdateText = "Waiting for hardware";
+    private string _statusText = "WAITING FOR SENSORS";
     private string _cpuHardwareText = "CPU";
     private string _gpuHardwareText = "GPU";
 
     public DashboardViewModel()
     {
-        CpuTemperature = new MetricViewModel(isTemperature: true);
+        CpuTemperature = new MetricViewModel(isTemperature: true, showTemperatureSource: true);
         GpuTemperature = new MetricViewModel(isTemperature: true);
         CpuPower = new MetricViewModel();
         GpuPower = new MetricViewModel();
@@ -34,12 +33,6 @@ public sealed class DashboardViewModel : INotifyPropertyChanged
     {
         get => _statusText;
         private set => SetField(ref _statusText, value);
-    }
-
-    public string LastUpdateText
-    {
-        get => _lastUpdateText;
-        private set => SetField(ref _lastUpdateText, value);
     }
 
     public string CpuHardwareText
@@ -62,10 +55,9 @@ public sealed class DashboardViewModel : INotifyPropertyChanged
         GpuPower.Apply(snapshot.GpuPower);
         CpuHardwareText = HardwareNameFormatter.FormatCpu(snapshot.CpuHardwareName);
         GpuHardwareText = HardwareNameFormatter.FormatGpu(snapshot.GpuHardwareName);
-        StatusText = snapshot.Status;
-        LastUpdateText = snapshot.IsHardwareAvailable
-            ? $"Updated {snapshot.CapturedAt.LocalDateTime:HH:mm:ss}"
-            : "Waiting for readable sensors";
+        StatusText = string.Equals(snapshot.Status, "LIVE", StringComparison.OrdinalIgnoreCase)
+            ? string.Empty
+            : snapshot.Status;
     }
 
     private void SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)

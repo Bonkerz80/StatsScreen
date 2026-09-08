@@ -1,6 +1,6 @@
 # Stats Screen
 
-Stats Screen is a purpose-built .NET 8 WPF dashboard for an 800 × 600 secondary display. Version 0.2.0 reads four live values through `LibreHardwareMonitorLib`:
+Stats Screen is a purpose-built .NET 8 WPF dashboard for an 800 × 600 secondary display. Version 0.2.1 reads four live values through `LibreHardwareMonitorLib`:
 
 - maximum available CPU core temperature
 - main GPU core temperature
@@ -9,13 +9,13 @@ Stats Screen is a purpose-built .NET 8 WPF dashboard for an 800 × 600 secondary
 
 The UI is a purpose-built instrumentation display: temperatures dominate the upper half, power sits below, and detected CPU/GPU names form a compact status strip. Sensor polling is kept off the WPF UI thread, and a missing sensor is displayed as `N/A` rather than treated as a fatal error.
 
-[Download the Windows installer for Stats Screen 0.2.0](https://github.com/Bonkerz80/StatsScreen/releases/latest/download/StatsScreen-Setup-0.2.0.exe)
+[Latest published Windows installer (0.2.0)](https://github.com/Bonkerz80/StatsScreen/releases/latest/download/StatsScreen-Setup-0.2.0.exe) · The 0.2.1 installer is under local validation and is not published yet.
 
 ![Stats Screen dashboard preview](docs/dashboard.png)
 
-## Install and first run (0.2.0)
+## Install and first run (0.2.1 local validation)
 
-Download and run `StatsScreen-Setup-0.2.0.exe`, or run `artifacts/installer/StatsScreen-Setup-0.2.0.exe` after building locally. The installer includes the .NET runtime, installs to Program Files, creates a Start menu entry, and offers a desktop shortcut (selected by default).
+Run `artifacts/installer/StatsScreen-Setup-0.2.1.exe` after building locally. The latest published installer remains available from the download link above. The installer includes the .NET runtime, installs to Program Files, creates a Start menu entry, and offers a desktop shortcut (selected by default).
 
 **Start with Windows** is optional and initially unchecked. It creates a scheduled task for the account running setup with interactive sign-in and administrator privileges; no password is stored. Run setup again and change the checkbox to enable/disable it. For an account using different administrator credentials, the startup task belongs to that administrator account.
 
@@ -23,7 +23,7 @@ Manual launches ask for administrator access, which is needed for CPU readings o
 
 The installed application is unsigned. Windows may show an unknown-publisher notice. The bundled third-party driver installer is signed; these are separate signatures.
 
-CPU fallback readings are visibly labelled `Tctl/Tdie · CPU FALLBACK`. Numbered cores take precedence whenever exposed. The AMD integrated graphics and discrete RX 9070 XT are distinguished by hardware name, with deterministic selection that does not change when a reading is temporarily missing. Unknown GPUs still need validation against their logs.
+The selected CPU temperature source is shown as a short label such as `Tctl/Tdie`, `Tdie`, `Core #3`, or `CPU Package`; the full hardware path remains available through the tooltip and diagnostic log. Numbered cores take precedence whenever exposed. The AMD integrated graphics and discrete RX 9070 XT are distinguished by hardware name, with deterministic selection that does not change when a reading is temporarily missing. Unknown GPUs still need validation against their logs.
 
 ### Rebuild setup
 
@@ -70,7 +70,7 @@ The published files are placed under `src\StatsScreen\bin\Release\net8.0-windows
 
 ## Verification
 
-The release was checked against the target PC with real elevated sensor readings, the optional sign-in task, installation, reinstallation, and uninstall. See [VERIFICATION.md](VERIFICATION.md) for the observed results and remaining environment-dependent checks.
+The 0.2.1 dashboard polish was checked with the existing diagnostic and build workflow. See [VERIFICATION.md](VERIFICATION.md) for the observed results and remaining environment-dependent checks.
 
 ## Run and controls
 
@@ -117,7 +117,7 @@ src/StatsScreen/
   Models/              application-level snapshots and sensor descriptors
   Services/            hardware, polling, display, settings, and logging
   ViewModels/           dashboard presentation state
-  Views/               WPF dashboard, tiles, and settings window
+  Views/               WPF dashboard and settings window
   Themes/              dashboard styling
 tests/StatsScreen.Tests/
   SensorSelectionTests.cs

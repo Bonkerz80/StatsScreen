@@ -1,4 +1,3 @@
-using System.Globalization;
 using StatsScreen.Models;
 
 namespace StatsScreen.Services.Hardware;
@@ -14,22 +13,37 @@ public static class HardwareSnapshotFactory
         HardwareSensorDescriptor? cpuPower = SensorSelection.SelectCpuPower(sensors);
         HardwareSensorDescriptor? gpuPower = SensorSelection.SelectGpuPower(sensors);
 
-        bool hasAnyReading = cpuTemperature is not null ||
-                              gpuTemperature is not null ||
-                              cpuPower is not null ||
-                              gpuPower is not null;
+        SensorMetric cpuTemperatureMetric = ToMetric(cpuTemperature, "°C");
+        SensorMetric gpuTemperatureMetric = ToMetric(gpuTemperature, "°C");
+        SensorMetric cpuPowerMetric = ToMetric(cpuPower, "W");
+        SensorMetric gpuPowerMetric = ToMetric(gpuPower, "W");
+
+        bool hasAnyReading = IsAvailable(cpuTemperatureMetric) ||
+                              IsAvailable(gpuTemperatureMetric) ||
+                              IsAvailable(cpuPowerMetric) ||
+                              IsAvailable(gpuPowerMetric);
+        bool hasAllExpectedReadings = IsAvailable(cpuTemperatureMetric) &&
+                                       IsAvailable(gpuTemperatureMetric) &&
+                                       IsAvailable(cpuPowerMetric) &&
+                                       IsAvailable(gpuPowerMetric);
+        string status = hasAllExpectedReadings
+            ? string.Empty
+            : hasAnyReading ? "SENSOR ERROR" : "NO TARGET SENSORS";
 
         return new DashboardSnapshot(
-            ToMetric(cpuTemperature, "°C"),
-            ToMetric(gpuTemperature, "°C"),
-            ToMetric(cpuPower, "W"),
-            ToMetric(gpuPower, "W"),
+            cpuTemperatureMetric,
+            gpuTemperatureMetric,
+            cpuPowerMetric,
+            gpuPowerMetric,
             capturedAt,
-            hasAnyReading ? "LIVE" : "NO TARGET SENSORS",
+            status,
             hasAnyReading,
             HardwareName(cpuTemperature, cpuPower),
             HardwareName(gpuTemperature, gpuPower));
     }
+
+    private static bool IsAvailable(SensorMetric metric) =>
+        metric.Value is { } value && !double.IsNaN(value) && !double.IsInfinity(value);
 
     private static string HardwareName(
         HardwareSensorDescriptor? primary,
