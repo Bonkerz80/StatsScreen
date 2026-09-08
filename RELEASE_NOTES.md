@@ -1,18 +1,18 @@
-# Stats Screen v0.2.1
+# Stats Screen v0.2.2
 
-This small visual update polishes the existing 800 × 600 PC instrumentation display without changing the hardware-monitoring backend.
+This update adds restrained, user-selectable colour accents to the existing 800 × 600 instrumentation dashboard without changing the hardware-monitoring backend or layout dimensions.
 
 Highlights:
 
-- Removed the redundant TEMPERATURE heading and the heavy outer frame around the CPU/GPU temperature cards.
-- Kept the distance-readable temperature values and widened the temperature bars within the available card space.
-- Removed LIVE SENSOR, CPU FALLBACK, and the normal LIVE/updated timestamp text from the dashboard.
-- Shows the selected CPU temperature source as a short label such as Tctl/Tdie, Tdie, Core #3, or CPU Package.
-- Keeps GPU source text quiet during normal operation while showing SENSOR UNAVAILABLE when a temperature cannot be read.
-- Leaves the centre of the hardware strip blank during healthy operation and reserves it for important statuses.
-- Preserved the power layout, temperature thresholds, hardware names, right-click menu, display handling, polling, logging, and sensor-selection rules.
+- Added a central predefined palette: cyan, blue, green, lime, amber, orange, red, pink, purple, white, and grey.
+- Added **Colours** to the existing right-click menu with CPU Temperature, GPU Temperature, CPU Power, GPU Power, checked selections, colour swatches, and **Reset Colours**.
+- Applies colour choices immediately and persists stable palette names in the existing settings file.
+- Uses the selected CPU/GPU temperature accents for the related hardware names in the bottom strip.
+- Keeps temperature warnings authoritative: amber from 70 °C, red from 85 °C, and the selected normal accent restored below 70 °C.
+- Keeps temperature values readable, with colour concentrated in headings, bars, borders, units, thin power accents, and hardware names.
+- Preserves sensor selection, polling, logging, settings, fullscreen/display handling, right-click controls, installer behaviour, and the 800 × 600 layout.
 
-The update is validated by the existing sensor-selection tests plus focused presentation, settings, polling, status, and zero-reading tests. The self-contained x64 installer is built locally for validation; the v0.2.1 GitHub release is intentionally not published yet.
+The update includes focused persistence, invalid-settings, reset, dashboard-accent, and warning-override tests. The self-contained x64 installer is built locally for validation; the v0.2.2 GitHub release is intentionally not published yet.
 
 ## Previous release
 

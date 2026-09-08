@@ -1,6 +1,7 @@
 using StatsScreen.Models;
 using StatsScreen.Services.Hardware;
 using StatsScreen.Services.Presentation;
+using StatsScreen.Services.Settings;
 using StatsScreen.Services.Temperature;
 using StatsScreen.ViewModels;
 using Xunit;
@@ -17,6 +18,53 @@ public sealed class PresentationTests
     public void TemperatureStatusUsesTheDefinedBands(double value, TemperatureStatus expected)
     {
         Assert.Equal(expected, TemperatureStatusRules.Classify(value));
+    }
+
+    [Fact]
+    public void SelectedTemperatureAccentIsOverriddenByWarmAndHotStatesThenRestored()
+    {
+        var metric = new MetricViewModel(
+            isTemperature: true,
+            defaultAccentKey: AccentPalette.CyanKey);
+        metric.SetAccent(AccentPalette.PurpleKey);
+
+        metric.Apply(new SensorMetric(65, "°C", "CPU / Core #1"));
+        Assert.Same(AccentPalette.Get(AccentPalette.PurpleKey).Brush, metric.AccentBrush);
+        Assert.Same(AccentPalette.Get(AccentPalette.PurpleKey).Brush, metric.TemperatureBarBrush);
+        Assert.Same(AccentPalette.NormalTemperatureValueBrush, metric.TemperatureValueBrush);
+
+        metric.Apply(new SensorMetric(70, "°C", "CPU / Core #1"));
+        Assert.Same(AccentPalette.WarmTemperatureBrush, metric.TemperatureBarBrush);
+        Assert.Same(AccentPalette.WarmTemperatureBrush, metric.TemperatureValueBrush);
+
+        metric.Apply(new SensorMetric(85, "°C", "CPU / Core #1"));
+        Assert.Same(AccentPalette.HotTemperatureBrush, metric.TemperatureBarBrush);
+        Assert.Same(AccentPalette.HotTemperatureBrush, metric.TemperatureValueBrush);
+
+        metric.Apply(new SensorMetric(65, "°C", "CPU / Core #1"));
+        Assert.Same(AccentPalette.Get(AccentPalette.PurpleKey).Brush, metric.TemperatureBarBrush);
+    }
+
+    [Fact]
+    public void DashboardAppliesEachPersistedAccentToItsRelatedSection()
+    {
+        var settings = new AppSettings
+        {
+            CpuTemperatureAccent = AccentPalette.GreenKey,
+            GpuTemperatureAccent = AccentPalette.BlueKey,
+            CpuPowerAccent = AccentPalette.OrangeKey,
+            GpuPowerAccent = AccentPalette.PinkKey
+        };
+        var viewModel = new DashboardViewModel();
+
+        viewModel.ApplyAccentSettings(settings);
+
+        Assert.Equal(AccentPalette.GreenKey, viewModel.CpuTemperature.AccentKey);
+        Assert.Equal(AccentPalette.BlueKey, viewModel.GpuTemperature.AccentKey);
+        Assert.Equal(AccentPalette.OrangeKey, viewModel.CpuPower.AccentKey);
+        Assert.Equal(AccentPalette.PinkKey, viewModel.GpuPower.AccentKey);
+        Assert.Same(viewModel.CpuTemperature.AccentBrush, viewModel.CpuHardwareBrush);
+        Assert.Same(viewModel.GpuTemperature.AccentBrush, viewModel.GpuHardwareBrush);
     }
 
     [Fact]

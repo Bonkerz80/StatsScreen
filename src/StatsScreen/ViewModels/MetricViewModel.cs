@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using StatsScreen.Models;
 using StatsScreen.Services.Presentation;
 using StatsScreen.Services.Temperature;
+using WpfBrush = System.Windows.Media.Brush;
 
 namespace StatsScreen.ViewModels;
 
@@ -16,15 +17,54 @@ public sealed class MetricViewModel : INotifyPropertyChanged
     private string _detailText = "SENSOR UNAVAILABLE";
     private TemperatureStatus _temperatureStatus = TemperatureStatus.Unavailable;
     private double _temperaturePercent;
+    private readonly string _defaultAccentKey;
     private readonly bool _showTemperatureSource;
+    private string _accentKey;
+    private WpfBrush _accentBrush;
+    private WpfBrush _temperatureValueBrush;
+    private WpfBrush _temperatureBarBrush;
 
-    public MetricViewModel(bool isTemperature = false, bool showTemperatureSource = false)
+    public MetricViewModel(
+        bool isTemperature = false,
+        bool showTemperatureSource = false,
+        string? defaultAccentKey = null)
     {
         IsTemperature = isTemperature;
         _showTemperatureSource = showTemperatureSource;
+        _defaultAccentKey = AccentPalette.NormalizeKey(
+            defaultAccentKey,
+            AccentPalette.DefaultCpuTemperatureKey);
+        _accentKey = _defaultAccentKey;
+        _accentBrush = AccentPalette.Get(_accentKey).Brush;
+        _temperatureValueBrush = AccentPalette.UnavailableTemperatureValueBrush;
+        _temperatureBarBrush = AccentPalette.UnavailableTemperatureBarBrush;
     }
 
     public bool IsTemperature { get; }
+
+    public string AccentKey
+    {
+        get => _accentKey;
+        private set => SetField(ref _accentKey, value);
+    }
+
+    public WpfBrush AccentBrush
+    {
+        get => _accentBrush;
+        private set => SetField(ref _accentBrush, value);
+    }
+
+    public WpfBrush TemperatureValueBrush
+    {
+        get => _temperatureValueBrush;
+        private set => SetField(ref _temperatureValueBrush, value);
+    }
+
+    public WpfBrush TemperatureBarBrush
+    {
+        get => _temperatureBarBrush;
+        private set => SetField(ref _temperatureBarBrush, value);
+    }
 
     public string DetailText { get => _detailText; private set => SetField(ref _detailText, value); }
 
@@ -66,6 +106,14 @@ public sealed class MetricViewModel : INotifyPropertyChanged
         private set => SetField(ref _isAvailable, value);
     }
 
+    public void SetAccent(string? accentKey)
+    {
+        string normalizedKey = AccentPalette.NormalizeKey(accentKey, _defaultAccentKey);
+        AccentKey = normalizedKey;
+        AccentBrush = AccentPalette.Get(normalizedKey).Brush;
+        UpdateTemperatureBrushes();
+    }
+
     public void Apply(SensorMetric metric)
     {
         if (metric.Value is { } value && !double.IsNaN(value) && !double.IsInfinity(value))
@@ -83,6 +131,7 @@ public sealed class MetricViewModel : INotifyPropertyChanged
                 ? TemperatureStatusRules.ToDisplayPercent(value)
                 : 0;
             IsAvailable = true;
+            UpdateTemperatureBrushes();
             return;
         }
 
@@ -93,6 +142,37 @@ public sealed class MetricViewModel : INotifyPropertyChanged
         TemperatureStatus = TemperatureStatus.Unavailable;
         TemperaturePercent = 0;
         IsAvailable = false;
+        UpdateTemperatureBrushes();
+    }
+
+    private void UpdateTemperatureBrushes()
+    {
+        if (!IsTemperature)
+        {
+            TemperatureValueBrush = AccentPalette.NormalTemperatureValueBrush;
+            TemperatureBarBrush = AccentBrush;
+            return;
+        }
+
+        switch (TemperatureStatus)
+        {
+            case TemperatureStatus.Warm:
+                TemperatureValueBrush = AccentPalette.WarmTemperatureBrush;
+                TemperatureBarBrush = AccentPalette.WarmTemperatureBrush;
+                break;
+            case TemperatureStatus.Hot:
+                TemperatureValueBrush = AccentPalette.HotTemperatureBrush;
+                TemperatureBarBrush = AccentPalette.HotTemperatureBrush;
+                break;
+            case TemperatureStatus.Unavailable:
+                TemperatureValueBrush = AccentPalette.UnavailableTemperatureValueBrush;
+                TemperatureBarBrush = AccentPalette.UnavailableTemperatureBarBrush;
+                break;
+            default:
+                TemperatureValueBrush = AccentPalette.NormalTemperatureValueBrush;
+                TemperatureBarBrush = AccentBrush;
+                break;
+        }
     }
 
     private void SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)

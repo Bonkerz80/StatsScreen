@@ -14,6 +14,7 @@ public partial class SettingsWindow : Window
         InitializeComponent();
 
         _displays = displays;
+        Settings = currentSettings.Clone();
         MonitorComboBox.ItemsSource = displays;
         StartInDisplayModeCheckBox.IsChecked = currentSettings.StartInDisplayMode;
         PollingIntervalTextBox.Text = currentSettings.PollIntervalMilliseconds.ToString();
@@ -57,12 +58,9 @@ public partial class SettingsWindow : Window
             return;
         }
 
-        Settings = new AppSettings
-        {
-            MonitorDeviceName = (MonitorComboBox.SelectedItem as DisplayInfo)?.DeviceName,
-            StartInDisplayMode = StartInDisplayModeCheckBox.IsChecked == true,
-            PollIntervalMilliseconds = interval
-        };
+        Settings.MonitorDeviceName = (MonitorComboBox.SelectedItem as DisplayInfo)?.DeviceName;
+        Settings.StartInDisplayMode = StartInDisplayModeCheckBox.IsChecked == true;
+        Settings.PollIntervalMilliseconds = interval;
         Settings.Normalize();
         DialogResult = true;
     }

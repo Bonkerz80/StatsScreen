@@ -8,6 +8,7 @@ using StatsScreen.Models;
 using StatsScreen.Services.Display;
 using StatsScreen.Services.Logging;
 using StatsScreen.Services.Polling;
+using StatsScreen.Services.Presentation;
 using StatsScreen.Services.Settings;
 using StatsScreen.ViewModels;
 
@@ -44,6 +45,7 @@ public partial class MainWindow : Window
 
         ViewModel = new DashboardViewModel();
         DataContext = ViewModel;
+        ViewModel.ApplyAccentSettings(_settings);
         _pollingService.SnapshotAvailable += PollingService_OnSnapshotAvailable;
     }
 
@@ -157,6 +159,7 @@ public partial class MainWindow : Window
         }
 
         _contextMenu.Items.Add(pollingMenu);
+        _contextMenu.Items.Add(BuildColoursMenu());
         _contextMenu.Items.Add(CreateMenuItem("Settings...", (_, _) => OpenSettings()));
         _contextMenu.Items.Add(CreateMenuItem("Open Diagnostic Log Folder", (_, _) => OpenDiagnosticLogFolder()));
         _contextMenu.Items.Add(new Separator
@@ -179,6 +182,121 @@ public partial class MainWindow : Window
 
         return item;
     }
+
+    private MenuItem BuildColoursMenu()
+    {
+        var coloursMenu = CreateMenuItem("Colours");
+        coloursMenu.ItemContainerStyle = FindResource("StatsMenuItemStyle") as Style;
+
+        AddColourSection(
+            coloursMenu,
+            "CPU Temperature",
+            DashboardAccentTarget.CpuTemperature,
+            _settings.CpuTemperatureAccent);
+        AddColourSection(
+            coloursMenu,
+            "GPU Temperature",
+            DashboardAccentTarget.GpuTemperature,
+            _settings.GpuTemperatureAccent);
+        AddColourSection(
+            coloursMenu,
+            "CPU Power",
+            DashboardAccentTarget.CpuPower,
+            _settings.CpuPowerAccent);
+        AddColourSection(
+            coloursMenu,
+            "GPU Power",
+            DashboardAccentTarget.GpuPower,
+            _settings.GpuPowerAccent);
+
+        coloursMenu.Items.Add(new Separator
+        {
+            Style = FindResource("StatsMenuSeparatorStyle") as Style
+        });
+        coloursMenu.Items.Add(CreateMenuItem("Reset Colours", (_, _) => ResetColours()));
+        return coloursMenu;
+    }
+
+    private void AddColourSection(
+        MenuItem parent,
+        string label,
+        DashboardAccentTarget target,
+        string selectedKey)
+    {
+        var section = CreateMenuItem(label);
+        section.ItemContainerStyle = FindResource("StatsMenuItemStyle") as Style;
+
+        string normalizedSelectedKey = AccentPalette.NormalizeKey(
+            selectedKey,
+            GetDefaultAccentKey(target));
+        foreach (AccentOption option in AccentPalette.Options)
+        {
+            MenuItem colourItem = CreateMenuItem(
+                option.DisplayName,
+                (_, _) => SetAccent(target, option.Key));
+            colourItem.IsCheckable = true;
+            colourItem.IsChecked = string.Equals(
+                normalizedSelectedKey,
+                option.Key,
+                StringComparison.OrdinalIgnoreCase);
+            colourItem.Icon = new Border
+            {
+                Width = 12,
+                Height = 12,
+                Margin = new Thickness(0, 0, 6, 0),
+                Background = option.Brush,
+                BorderBrush = FindResource("StatsMenuColourBorderBrush") as System.Windows.Media.Brush,
+                BorderThickness = new Thickness(1),
+                CornerRadius = new CornerRadius(2)
+            };
+            section.Items.Add(colourItem);
+        }
+
+        parent.Items.Add(section);
+    }
+
+    private void SetAccent(DashboardAccentTarget target, string accentKey)
+    {
+        string normalizedKey = AccentPalette.NormalizeKey(accentKey, GetDefaultAccentKey(target));
+        switch (target)
+        {
+            case DashboardAccentTarget.CpuTemperature:
+                _settings.CpuTemperatureAccent = normalizedKey;
+                break;
+            case DashboardAccentTarget.GpuTemperature:
+                _settings.GpuTemperatureAccent = normalizedKey;
+                break;
+            case DashboardAccentTarget.CpuPower:
+                _settings.CpuPowerAccent = normalizedKey;
+                break;
+            case DashboardAccentTarget.GpuPower:
+                _settings.GpuPowerAccent = normalizedKey;
+                break;
+        }
+
+        _settings.Normalize();
+        _settingsService.Save(_settings);
+        ViewModel.SetAccent(target, normalizedKey);
+        _logger.Info($"{target} accent set to {normalizedKey}.");
+    }
+
+    private void ResetColours()
+    {
+        _settings.ResetAccentColors();
+        _settings.Normalize();
+        _settingsService.Save(_settings);
+        ViewModel.ApplyAccentSettings(_settings);
+        _logger.Info("Dashboard accent colours reset to defaults.");
+    }
+
+    private static string GetDefaultAccentKey(DashboardAccentTarget target) => target switch
+    {
+        DashboardAccentTarget.CpuTemperature => AccentPalette.DefaultCpuTemperatureKey,
+        DashboardAccentTarget.GpuTemperature => AccentPalette.DefaultGpuTemperatureKey,
+        DashboardAccentTarget.CpuPower => AccentPalette.DefaultCpuPowerKey,
+        DashboardAccentTarget.GpuPower => AccentPalette.DefaultGpuPowerKey,
+        _ => AccentPalette.DefaultCpuTemperatureKey
+    };
 
     private IReadOnlyList<int> GetPollingIntervals()
     {
@@ -296,6 +414,7 @@ public partial class MainWindow : Window
 
         _settings = dialog.Settings;
         _settingsService.Save(_settings);
+        ViewModel.ApplyAccentSettings(_settings);
         _pollingService.Restart(_settings.PollIntervalMilliseconds);
 
         if (wasDisplayMode)

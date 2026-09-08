@@ -1,6 +1,6 @@
 # Stats Screen
 
-Stats Screen is a purpose-built .NET 8 WPF dashboard for an 800 × 600 secondary display. Version 0.2.1 reads four live values through `LibreHardwareMonitorLib`:
+Stats Screen is a purpose-built .NET 8 WPF dashboard for an 800 × 600 secondary display. Version 0.2.2 reads four live values through `LibreHardwareMonitorLib`:
 
 - maximum available CPU core temperature
 - main GPU core temperature
@@ -9,13 +9,13 @@ Stats Screen is a purpose-built .NET 8 WPF dashboard for an 800 × 600 secondary
 
 The UI is a purpose-built instrumentation display: temperatures dominate the upper half, power sits below, and detected CPU/GPU names form a compact status strip. Sensor polling is kept off the WPF UI thread, and a missing sensor is displayed as `N/A` rather than treated as a fatal error.
 
-[Latest published Windows installer (0.2.0)](https://github.com/Bonkerz80/StatsScreen/releases/latest/download/StatsScreen-Setup-0.2.0.exe) · The 0.2.1 installer is under local validation and is not published yet.
+[Latest published Windows installer (0.2.0)](https://github.com/Bonkerz80/StatsScreen/releases/latest/download/StatsScreen-Setup-0.2.0.exe) · The 0.2.2 installer is under local validation and is not published yet.
 
 ![Stats Screen dashboard preview](docs/dashboard.png)
 
-## Install and first run (0.2.1 local validation)
+## Install and first run (0.2.2 local validation)
 
-Run `artifacts/installer/StatsScreen-Setup-0.2.1.exe` after building locally. The latest published installer remains available from the download link above. The installer includes the .NET runtime, installs to Program Files, creates a Start menu entry, and offers a desktop shortcut (selected by default).
+Run `artifacts/installer/StatsScreen-Setup-0.2.2.exe` after building locally. The latest published installer remains available from the download link above. The installer includes the .NET runtime, installs to Program Files, creates a Start menu entry, and offers a desktop shortcut (selected by default).
 
 **Start with Windows** is optional and initially unchecked. It creates a scheduled task for the account running setup with interactive sign-in and administrator privileges; no password is stored. Run setup again and change the checkbox to enable/disable it. For an account using different administrator credentials, the startup task belongs to that administrator account.
 
@@ -37,11 +37,11 @@ Use `-DotNet <path-to-dotnet.exe>` and `-InnoCompiler <path-to-ISCC.exe>` for to
 
 ### Automated GitHub builds
 
-Pull requests and pushes to `main` run the test suite automatically. To publish a new installer, update the version in `StatsScreen.csproj`, `installer/StatsScreen.iss`, and `installer/setup-info.txt`, update `RELEASE_NOTES.md`, then push a matching tag such as `v0.2.1`:
+Pull requests and pushes to `main` run the test suite automatically. To publish a new installer, update the version in `StatsScreen.csproj`, `installer/StatsScreen.iss`, and `installer/setup-info.txt`, update `RELEASE_NOTES.md`, then push a matching tag such as `v0.2.2`:
 
 ```powershell
-git tag v0.2.1
-git push origin v0.2.1
+git tag v0.2.2
+git push origin v0.2.2
 ```
 
 GitHub Actions validates the tag, downloads the official signed PawnIO 2.2.0 setup package with a pinned SHA256 check, builds the self-contained x64 installer, uploads it as a workflow artifact, and creates the GitHub release automatically. A manual workflow run can build and upload an installer artifact without publishing a release.
@@ -70,7 +70,7 @@ The published files are placed under `src\StatsScreen\bin\Release\net8.0-windows
 
 ## Verification
 
-The 0.2.1 dashboard polish was checked with the existing diagnostic and build workflow. See [VERIFICATION.md](VERIFICATION.md) for the observed results and remaining environment-dependent checks.
+The 0.2.2 colour customisation and dashboard presentation were checked with the existing diagnostic and build workflow. See [VERIFICATION.md](VERIFICATION.md) for the observed results and remaining environment-dependent checks.
 
 ## Run and controls
 
@@ -83,6 +83,10 @@ Run `StatsScreen.exe` normally while developing. The initial window is a normal,
 Dedicated display mode is borderless, topmost, and fills the remembered monitor bounds. Settings are stored at `%LOCALAPPDATA%\StatsScreen\settings.json`. The diagnostic log is written to `%LOCALAPPDATA%\StatsScreen\logs`.
 
 The monitor selector shows the current bounds of every Windows display. Select the 800 × 600 monitor and enable **Start in dedicated display mode** if the dashboard should enter that mode on launch.
+
+### Dashboard colours
+
+Right-click the dashboard and open **Colours** to choose a restrained predefined accent for CPU Temperature, GPU Temperature, CPU Power, or GPU Power. The selected option is checked, includes a small colour swatch, applies immediately, and is saved to the existing settings file. **Reset Colours** restores cyan CPU temperature, blue GPU temperature, amber CPU power, and violet GPU power. Temperature values and bars use amber from 70 °C and red from 85 °C, then return to the selected colour when the temperature falls below the warning bands.
 
 ## Hardware monitoring
 

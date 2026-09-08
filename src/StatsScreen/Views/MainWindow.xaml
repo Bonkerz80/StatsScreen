@@ -41,7 +41,7 @@
                     <Border Grid.Column="0"
                             DataContext="{Binding CpuTemperature}"
                             Background="#121A22"
-                            BorderBrush="#2D3D4B"
+                            BorderBrush="{Binding AccentBrush}"
                             BorderThickness="1"
                             CornerRadius="10"
                             ToolTip="{Binding SourceText}">
@@ -55,7 +55,7 @@
 
                             <TextBlock Grid.Row="0"
                                        Text="CPU"
-                                       Foreground="#AAB8C6"
+                                       Foreground="{Binding AccentBrush}"
                                        FontSize="17"
                                        FontWeight="SemiBold"
                                        HorizontalAlignment="Center" />
@@ -72,7 +72,7 @@
                                            VerticalAlignment="Center" />
                                 <TextBlock Margin="9,0,0,10"
                                            Text="{Binding UnitText}"
-                                           Foreground="#81909F"
+                                           Foreground="{Binding AccentBrush}"
                                            FontSize="27"
                                            FontWeight="SemiBold"
                                            VerticalAlignment="Bottom" />
@@ -98,7 +98,7 @@
                     <Border Grid.Column="2"
                             DataContext="{Binding GpuTemperature}"
                             Background="#121A22"
-                            BorderBrush="#2D3D4B"
+                            BorderBrush="{Binding AccentBrush}"
                             BorderThickness="1"
                             CornerRadius="10"
                             ToolTip="{Binding SourceText}">
@@ -112,7 +112,7 @@
 
                             <TextBlock Grid.Row="0"
                                        Text="GPU"
-                                       Foreground="#AAB8C6"
+                                       Foreground="{Binding AccentBrush}"
                                        FontSize="17"
                                        FontWeight="SemiBold"
                                        HorizontalAlignment="Center" />
@@ -129,7 +129,7 @@
                                            VerticalAlignment="Center" />
                                 <TextBlock Margin="9,0,0,10"
                                            Text="{Binding UnitText}"
-                                           Foreground="#81909F"
+                                           Foreground="{Binding AccentBrush}"
                                            FontSize="27"
                                            FontWeight="SemiBold"
                                            VerticalAlignment="Bottom" />
@@ -171,7 +171,7 @@
                                     VerticalAlignment="Center"
                                     ToolTip="{Binding SourceText}">
                             <TextBlock Text="CPU POWER"
-                                       Foreground="#9AAABA"
+                                       Foreground="{Binding AccentBrush}"
                                        FontSize="14"
                                        FontWeight="SemiBold"
                                        HorizontalAlignment="Center" />
@@ -185,11 +185,16 @@
                                            FontWeight="SemiBold" />
                                 <TextBlock Margin="8,0,0,8"
                                            Text="{Binding UnitText}"
-                                           Foreground="#8493A2"
+                                           Foreground="{Binding AccentBrush}"
                                            FontSize="22"
                                            FontWeight="SemiBold"
                                            VerticalAlignment="Bottom" />
                             </StackPanel>
+                            <Border Height="2"
+                                    Width="108"
+                                    Margin="0,8,0,0"
+                                    Background="{Binding AccentBrush}"
+                                    CornerRadius="1" />
                         </StackPanel>
 
                         <Border Grid.Column="1"
@@ -202,7 +207,7 @@
                                     VerticalAlignment="Center"
                                     ToolTip="{Binding SourceText}">
                             <TextBlock Text="GPU POWER"
-                                       Foreground="#9AAABA"
+                                       Foreground="{Binding AccentBrush}"
                                        FontSize="14"
                                        FontWeight="SemiBold"
                                        HorizontalAlignment="Center" />
@@ -216,11 +221,16 @@
                                            FontWeight="SemiBold" />
                                 <TextBlock Margin="8,0,0,8"
                                            Text="{Binding UnitText}"
-                                           Foreground="#8493A2"
+                                           Foreground="{Binding AccentBrush}"
                                            FontSize="22"
                                            FontWeight="SemiBold"
                                            VerticalAlignment="Bottom" />
                             </StackPanel>
+                            <Border Height="2"
+                                    Width="108"
+                                    Margin="0,8,0,0"
+                                    Background="{Binding AccentBrush}"
+                                    CornerRadius="1" />
                         </StackPanel>
                     </Grid>
                 </Border>
@@ -245,7 +255,7 @@
                                        FontSize="10"
                                        FontWeight="SemiBold" />
                             <TextBlock Text="{Binding CpuHardwareText}"
-                                       Foreground="#C9D4DE"
+                                       Foreground="{Binding CpuHardwareBrush}"
                                        FontSize="15"
                                        FontWeight="SemiBold"
                                        TextTrimming="CharacterEllipsis"
@@ -272,7 +282,7 @@
                                        FontWeight="SemiBold"
                                        HorizontalAlignment="Right" />
                             <TextBlock Text="{Binding GpuHardwareText}"
-                                       Foreground="#C9D4DE"
+                                       Foreground="{Binding GpuHardwareBrush}"
                                        FontSize="15"
                                        FontWeight="SemiBold"
                                        TextTrimming="CharacterEllipsis"
