@@ -5,14 +5,14 @@
 - The existing dashboard colour customisation, sensor backend, settings persistence, monitor selection, polling, logging, fullscreen handling, right-click menu, and 800 × 600 layout were preserved.
 - Thirty-six automated tests passed, including the existing sensor-selection, settings, polling, and colour-customisation coverage.
 - Release build, self-contained x64 publish, and Inno Setup 6.7.3 packaging succeeded as `StatsScreen-Setup-0.2.3.exe`.
-- Installer size: 53,916,603 bytes.
-- Installer SHA256: `00193A4D380291B9694D49D1CD99F55213D5DEA33B4F82ED1E7F869EEAD28823`.
+- Installer size: 53,916,580 bytes.
+- Installer SHA256: `919B0CC4577D12CFF3B76F7F37C533A57EAB27B365DC1B830DF8C01F7A97CC22`.
 
 ## Settings-window fix
 
 The ComboBox problem came from relying on the generic WPF ComboBox style: changing `Foreground`, `Background`, and `BorderBrush` did not replace the standard control template, its theme-dependent toggle button, or its popup item containers. Those template parts could still use Windows system-theme colours, producing a light input area and unreadable selected text on the LCD.
 
-The fix adds named shared resources and explicit templates for `StatsComboBoxStyle`, `StatsComboBoxItemStyle`, `StatsTextBoxStyle`, and `StatsCheckBoxStyle`. The ComboBox now controls its closed surface, arrow, focus state, popup background, item text, hover, selected, and disabled states. The TextBox explicitly controls its content host, caret, selection colours, focus border, and disabled state. The CheckBox explicitly controls its unchecked border, checked mark, hover, pressed, focus, and disabled states.
+The fix adds named shared resources and explicit templates for `StatsComboBoxStyle`, `StatsComboBoxItemStyle`, `StatsTextBoxStyle`, and `StatsCheckBoxStyle`. The ComboBox now controls its closed surface, arrow, focus state, popup background, item text, hover, selected, and disabled states. The TextBox explicitly controls its content host, caret, selection colours, focus border, and disabled state. The CheckBox explicitly controls its unchecked border, fixed centred 14 × 14 checked mark, hover, pressed, focus, and disabled states; the fixed geometry prevents DPI-dependent clipping or distortion.
 
 Settings text was raised to a stronger hierarchy: white 22 px title, bright 13–14 px labels, `#AEBCC9` explanatory text, 15 px input/control text, 13 px shortcut help, and a 560 × 420 non-fullscreen window. Save uses a slightly stronger accent while Cancel retains the normal dark button treatment.
 

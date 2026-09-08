@@ -7,7 +7,7 @@ Highlights:
 - Replaced the theme-dependent ComboBox appearance with an explicit dark StatsScreen template, including a visible arrow, selected text, border, focus state, and popup placement.
 - Added an explicit high-contrast ComboBoxItem template for normal, highlighted, selected, and disabled dropdown items.
 - Added a deliberate dark TextBox template with bright text, visible caret, readable selection colours, focus border, and larger input sizing.
-- Added a StatsScreen CheckBox template with a visible unchecked border, clear checked mark, hover state, and keyboard focus state.
+- Added a StatsScreen CheckBox template with a visible unchecked border, a fixed centred 14 × 14 checked mark, hover state, and keyboard focus state so the tick cannot clip or distort at different DPI settings.
 - Increased Settings-window contrast and typography, enlarged the window to 560 × 420, and made Save more prominent without changing the dashboard layout.
 - Preserved monitor selection, polling interval, colour settings, cancellation behaviour, sensor selection, polling, logging, fullscreen/display handling, installer behaviour, and the 800 × 600 dashboard.
 
