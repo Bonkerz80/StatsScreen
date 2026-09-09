@@ -53,7 +53,24 @@
                     <RowDefinition Height="150" />
                     <RowDefinition Height="100" />
                 </Grid.RowDefinitions>
-
+                <Ellipse Width="560"
+                         Height="560"
+                         Margin="-330,-250,0,0"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Stroke="#1B3042"
+                         StrokeThickness="1"
+                         Opacity="0.48"
+                         IsHitTestVisible="False" />
+                <Ellipse Width="430"
+                         Height="430"
+                         Margin="0,0,-240,-270"
+                         HorizontalAlignment="Right"
+                         VerticalAlignment="Bottom"
+                         Stroke="#1B3042"
+                         StrokeThickness="1"
+                         Opacity="0.36"
+                         IsHitTestVisible="False" />
                 <Grid Grid.Row="0"
                       Margin="22,18,22,8">
                     <Grid.ColumnDefinitions>
@@ -66,7 +83,7 @@
                             DataContext="{Binding CpuTemperature}"
                             Background="{StaticResource TemperatureCardBrush}"
                             BorderBrush="{StaticResource DashboardCardBorderBrush}"
-                            BorderThickness="1"
+                            BorderThickness="0"
                             CornerRadius="14"
                             ToolTip="{Binding SourceText}">
                         <Grid>
@@ -83,7 +100,36 @@
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Top"
                                     Opacity="0.85" />
-                            <Grid Margin="24,21,24,18">
+                            <TextBlock Margin="0,22,22,0"
+                                       Text="01 / THERMAL"
+                                       Foreground="{Binding AccentBrush}"
+                                       FontFamily="Cascadia Mono,Consolas"
+                                       FontSize="8"
+                                       FontWeight="SemiBold"
+                                       HorizontalAlignment="Right"
+                                       VerticalAlignment="Top"
+                                       Opacity="0.75" />
+                            <Canvas Width="206"
+                                    Height="48"
+                                    Margin="0,0,0,56"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Bottom"
+                                    IsHitTestVisible="False">
+                                <Path Data="M 0,41 L 28,29 L 53,34 L 83,10 L 111,22 L 152,3 L 186,9"
+                                      Width="186"
+                                      Height="42"
+                                      Stretch="Fill"
+                                      Stroke="{Binding AccentBrush}"
+                                      StrokeThickness="2"
+                                      Opacity="0.30" />
+                                <Ellipse Canvas.Left="183"
+                                         Canvas.Top="6"
+                                         Width="5"
+                                         Height="5"
+                                         Fill="{Binding AccentBrush}"
+                                         Opacity="0.55" />
+                            </Canvas>
+                            <Grid Margin="18,21,18,18">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="*" />
@@ -106,19 +152,40 @@
                                                HorizontalAlignment="Center" />
                                 </StackPanel>
 
+                                <Ellipse Grid.Row="1"
+                                         Width="292"
+                                         Height="164"
+                                         HorizontalAlignment="Center"
+                                         VerticalAlignment="Center"
+                                         Stroke="#2A3B4B"
+                                         StrokeThickness="2"
+                                         StrokeDashArray="1,5"
+                                         Opacity="0.55"
+                                         IsHitTestVisible="False" />
+                                <Ellipse Grid.Row="1"
+                                         Width="292"
+                                         Height="164"
+                                         HorizontalAlignment="Center"
+                                         VerticalAlignment="Center"
+                                         Stroke="{Binding AccentBrush}"
+                                         StrokeThickness="2"
+                                         StrokeDashArray="0.22,1"
+                                         Opacity="0.32"
+                                         IsHitTestVisible="False" />
                                 <Grid Grid.Row="1"
                                       HorizontalAlignment="Center"
                                       VerticalAlignment="Center">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="174" />
-                                        <ColumnDefinition Width="42" />
+                                        <ColumnDefinition Width="260" />
+                                        <ColumnDefinition Width="45" />
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Column="0"
                                                Text="{Binding ValueText}"
                                                Style="{StaticResource TemperatureValueTextStyle}"
                                                FontFamily="Cascadia Mono,Consolas"
-                                               FontSize="78"
+                                               FontSize="84"
                                                FontWeight="SemiBold"
+                                               TextWrapping="NoWrap"
                                                TextAlignment="Right"
                                                VerticalAlignment="Center" />
                                     <TextBlock Grid.Column="1"
@@ -165,7 +232,7 @@
                             DataContext="{Binding GpuTemperature}"
                             Background="{StaticResource TemperatureCardBrush}"
                             BorderBrush="{StaticResource DashboardCardBorderBrush}"
-                            BorderThickness="1"
+                            BorderThickness="0"
                             CornerRadius="14"
                             ToolTip="{Binding SourceText}">
                         <Grid>
@@ -182,7 +249,36 @@
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Top"
                                     Opacity="0.85" />
-                            <Grid Margin="24,21,24,18">
+                            <TextBlock Margin="0,22,22,0"
+                                       Text="02 / THERMAL"
+                                       Foreground="{Binding AccentBrush}"
+                                       FontFamily="Cascadia Mono,Consolas"
+                                       FontSize="8"
+                                       FontWeight="SemiBold"
+                                       HorizontalAlignment="Right"
+                                       VerticalAlignment="Top"
+                                       Opacity="0.75" />
+                            <Canvas Width="206"
+                                    Height="48"
+                                    Margin="0,0,0,56"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Bottom"
+                                    IsHitTestVisible="False">
+                                <Path Data="M 0,41 L 28,29 L 53,34 L 83,10 L 111,22 L 152,3 L 186,9"
+                                      Width="186"
+                                      Height="42"
+                                      Stretch="Fill"
+                                      Stroke="{Binding AccentBrush}"
+                                      StrokeThickness="2"
+                                      Opacity="0.30" />
+                                <Ellipse Canvas.Left="183"
+                                         Canvas.Top="6"
+                                         Width="5"
+                                         Height="5"
+                                         Fill="{Binding AccentBrush}"
+                                         Opacity="0.55" />
+                            </Canvas>
+                            <Grid Margin="18,21,18,18">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="*" />
@@ -205,19 +301,40 @@
                                                HorizontalAlignment="Center" />
                                 </StackPanel>
 
+                                <Ellipse Grid.Row="1"
+                                         Width="292"
+                                         Height="164"
+                                         HorizontalAlignment="Center"
+                                         VerticalAlignment="Center"
+                                         Stroke="#2A3B4B"
+                                         StrokeThickness="2"
+                                         StrokeDashArray="1,5"
+                                         Opacity="0.55"
+                                         IsHitTestVisible="False" />
+                                <Ellipse Grid.Row="1"
+                                         Width="292"
+                                         Height="164"
+                                         HorizontalAlignment="Center"
+                                         VerticalAlignment="Center"
+                                         Stroke="{Binding AccentBrush}"
+                                         StrokeThickness="2"
+                                         StrokeDashArray="0.22,1"
+                                         Opacity="0.32"
+                                         IsHitTestVisible="False" />
                                 <Grid Grid.Row="1"
                                       HorizontalAlignment="Center"
                                       VerticalAlignment="Center">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="174" />
-                                        <ColumnDefinition Width="42" />
+                                        <ColumnDefinition Width="260" />
+                                        <ColumnDefinition Width="45" />
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Column="0"
                                                Text="{Binding ValueText}"
                                                Style="{StaticResource TemperatureValueTextStyle}"
                                                FontFamily="Cascadia Mono,Consolas"
-                                               FontSize="78"
+                                               FontSize="84"
                                                FontWeight="SemiBold"
+                                               TextWrapping="NoWrap"
                                                TextAlignment="Right"
                                                VerticalAlignment="Center" />
                                     <TextBlock Grid.Column="1"
@@ -265,7 +382,7 @@
                         Margin="22,0,22,8"
                         Background="{StaticResource PowerPanelBrush}"
                         BorderBrush="{StaticResource DashboardCardBorderBrush}"
-                        BorderThickness="1"
+                        BorderThickness="0"
                         CornerRadius="14">
                     <Grid Margin="26,14,26,13">
                         <Grid.ColumnDefinitions>
@@ -286,7 +403,7 @@
                             <Grid Margin="0,1,0,0"
                                   HorizontalAlignment="Center">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="136" />
+                                    <ColumnDefinition Width="165" />
                                     <ColumnDefinition Width="31" />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Column="0"
@@ -295,6 +412,7 @@
                                            FontFamily="Cascadia Mono,Consolas"
                                            FontSize="51"
                                            FontWeight="SemiBold"
+                                           TextWrapping="NoWrap"
                                            TextAlignment="Right" />
                                 <TextBlock Grid.Column="1"
                                            Margin="8,0,0,7"
@@ -330,7 +448,7 @@
                             <Grid Margin="0,1,0,0"
                                   HorizontalAlignment="Center">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="136" />
+                                    <ColumnDefinition Width="165" />
                                     <ColumnDefinition Width="31" />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Column="0"
@@ -339,6 +457,7 @@
                                            FontFamily="Cascadia Mono,Consolas"
                                            FontSize="51"
                                            FontWeight="SemiBold"
+                                           TextWrapping="NoWrap"
                                            TextAlignment="Right" />
                                 <TextBlock Grid.Column="1"
                                            Margin="8,0,0,7"
@@ -362,7 +481,7 @@
                         Margin="22,0,22,18"
                         Background="#0C131B"
                         BorderBrush="{StaticResource DashboardCardBorderBrush}"
-                        BorderThickness="1"
+                        BorderThickness="0"
                         CornerRadius="12">
                     <Grid Margin="18,9,18,9">
                         <Grid.ColumnDefinitions>

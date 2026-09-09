@@ -9,7 +9,8 @@ controls.
   spacing.
 - Kept CPU/GPU temperatures dominant with fixed-width numeric columns, clear
   units, source labels, accent top edges, and slim telemetry tracks with active
-  endpoint markers.
+  endpoint markers. The value columns explicitly keep decimal readings such as
+  `9.8`, `40.3`, and `105.0` inside the layout without clipping.
 - Integrated CPU and GPU power into one lighter-weight band with a quiet centre
   separator, aligned wattage columns, and accent power rules.
 - Modernised the hardware strip with accent rails, compact CPU/GPU identification,

@@ -8,8 +8,9 @@
   integrated power band, and compact hardware/status strip.
 - Rendered the new dashboard at exactly 800 × 600. Local visual inspection
   confirmed aligned cards, readable units and source labels, no clipping or
-  overlap, and visible accent consistency. The rendered evidence is in
-  `artifacts/visual-check-0.4.0/dashboard.png`.
+  overlap, visible accent consistency, and correctly rendered decimal/unit
+  columns. The final rendered evidence is in
+  `artifacts/visual-check-0.4.0-final/dashboard.png`.
 - Generated and inspected the original icon at 1024 × 1024 and 256 × 256.
   The ICO contains 16, 24, 32, 48, 64, 128, and 256 pixel images.
 
@@ -31,8 +32,8 @@
 - Release build, self-contained win-x64 publish and Inno Setup 6.7.3 packaging
   succeeded. The published executable reports file version `0.4.0.0`. Local
   installer: `artifacts/installer/StatsScreen-Setup-0.4.0.exe`; size:
-  55,040,593 bytes; SHA256:
-  `88EC2DA2D7DC8B8399482A44DFE811C3BD6838AA382DDE3522497EE89F8957CE`.
+  55,037,386 bytes; SHA256:
+  `81642F98A09939C04036F505AEA23B3576723BEA79B339171196D72CC8A9F13C`.
 - The ICO is embedded through the project ApplicationIcon setting, both WPF
   windows reference the same resource, and the installer compiled with
   `SetupIconFile` plus explicit Start menu/desktop shortcut icon settings.
