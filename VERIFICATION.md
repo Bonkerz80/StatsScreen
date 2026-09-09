@@ -32,8 +32,8 @@
 - Release build, self-contained win-x64 publish and Inno Setup 6.7.3 packaging
   succeeded. The published executable reports file version `0.4.0.0`. Local
   installer: `artifacts/installer/StatsScreen-Setup-0.4.0.exe`; size:
-  55,044,684 bytes; SHA256:
-  `9EED15E528261E0FBC9AF60374CDA0AE97E73BDAE224B2EC5EBA9891B17C398C`.
+  55,047,101 bytes; SHA256:
+  `2602FBF8194712587016B95742E18779461375905BC1DBB930C4313C840AAA31`.
 - The ICO is embedded through the project ApplicationIcon setting, both WPF
   windows reference the same resource, and the installer compiled with
   `SetupIconFile` plus explicit Start menu/desktop shortcut icon settings.
