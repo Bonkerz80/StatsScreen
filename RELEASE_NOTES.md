@@ -10,8 +10,8 @@ Uses the existing PawnIO driver with the official signed 0.2.11 RyzenSMU module.
 No CPU tuning operations are exposed. Unknown PM versions, invalid/incomplete
 tables and access failures disable the experimental provider until restart.
 Diagnostics include individual cores, offsets, max, average and actual selection.
-Real per-core telemetry has not been verified: Windows denied driver access in
-the available test environment. This is not a verified hardware release.
+The packaged administrator-aware executable was then verified on a Ryzen 7
+9800X3D: PM table 0x620105 was accepted and all eight core values were read.
 
 ## Retained 0.2.3 settings changes
 
@@ -26,7 +26,7 @@ Highlights:
 - Increased Settings-window contrast and typography, enlarged the window to 560 × 420, and made Save more prominent without changing the dashboard layout.
 - Preserved monitor selection, polling interval, colour settings, cancellation behaviour, sensor selection, polling, logging, fullscreen/display handling, installer behaviour, and the 800 × 600 dashboard.
 
-The update retains the v0.2.2 palette and colour menu unchanged. The self-contained x64 installer is built locally for validation; the v0.2.3 GitHub release is intentionally not published yet.
+The update retains the v0.2.2 palette and colour menu unchanged. The self-contained x64 installer is built locally for validation; the v0.3.0 GitHub release is intentionally not published yet.
 
 ## Previous release
 

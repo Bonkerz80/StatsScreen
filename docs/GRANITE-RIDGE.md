@@ -78,12 +78,17 @@ comparison and actual dashboard source. It does not dump the entire table.
 ## Hardware verification boundary
 
 The local CPU was identified as AMD Ryzen 7 9800X3D 8-Core Processor, 8 cores/16
-threads, CPUID signature 00B40F40 (family 0x1A/model 0x44).
-The initial read-only probe could not open PawnIO: Windows error 5 (access denied).
-Consequently the actual PM version, module load on this driver, eight temperatures,
-max and average have NOT been verified. Research confirms 0x620105 as the allowed
-layout, not as the detected version of this machine.
+threads, CPUID signature 00B40F40 (family 0x1A/model 0x44). A framework-hosted,
+non-elevated probe received Windows error 5 (access denied) from PawnIO. The
+packaged executable requests `requireAdministrator`; when run that way, it loaded
+the signed module and detected PM version `0x00620105`.
 
-Run the installed app with administrator consent and --diagnose to verify real
-hardware. If it reports a different PM version, stop and research that exact
-layout; do not expand the allowlist or change offsets speculatively.
+The first verified sample was Core 0–7 = 36.1, 33.3, 35.0, 33.4, 33.1, 32.5,
+32.5 and 32.1 °C; Max Core = 36.1 °C (Core 0); Average Core = 33.5 °C; LHM
+Tctl/Tdie comparison = 54.6 °C. This confirms the allowed 0x620105 layout on
+this machine. The sample was idle and is evidence of telemetry access, not a
+load or accuracy characterization.
+
+Run the installed app with administrator consent and `--diagnose` when repeating
+the check. If another machine reports a different PM version, stop and research
+that exact layout; do not expand the allowlist or change offsets speculatively.

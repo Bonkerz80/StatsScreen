@@ -23,9 +23,9 @@ Selection saves immediately and retains your temperature colours and warnings.
 
 Only the Ryzen 7 9800X3D with recognised PM table version 0x620105 is supported.
 The additional provider reuses PawnIO for read-only telemetry and never changes
-CPU tuning. Unknown versions and invalid reads fall back safely. Real per-core
-readings on this PC remain unverified because Windows denied driver access in
-the diagnostic environment. See [research and verification](docs/GRANITE-RIDGE.md).
+CPU tuning. Unknown versions and invalid reads fall back safely. The packaged
+administrator-aware executable has now read all eight cores on the target
+9800X3D. See [research and verification](docs/GRANITE-RIDGE.md).
 
 ## Install and first run (0.3.0 local validation)
 
@@ -84,7 +84,7 @@ The published files are placed under `src\StatsScreen\bin\Release\net8.0-windows
 
 ## Verification
 
-The 0.3.0 experimental provider retains the settings and colour customisation work. See [VERIFICATION.md](VERIFICATION.md) for automated checks and the remaining administrator-run hardware verification.
+The 0.3.0 experimental provider retains the settings and colour customisation work. See [VERIFICATION.md](VERIFICATION.md) for automated checks and the hardware evidence.
 
 ## Run and controls
 

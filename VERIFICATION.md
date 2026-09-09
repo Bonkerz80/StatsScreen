@@ -1,4 +1,4 @@
-# Stats Screen 0.3.0 verification — 8 September 2026
+# Stats Screen 0.3.0 verification — 9 September 2026
 
 - Inspected local HEAD f0902d765b04649e6595e4f8e179358bf70ab5a7 (version 0.2.3),
   clean working tree, three commits ahead of origin/main. Inspected all three
@@ -14,25 +14,29 @@
   Size: 54,969,824 bytes. SHA256:
   16BA8230F1B77F2F35D4196C94BA39C3CFC8FC296D82E7C7AC4F905A94265CFF.
 - NU1900 warnings: vulnerability-feed metadata unavailable. No compilation errors.
-- Real diagnostic exited successfully and rendered the dashboard. CPU detected:
-  AuthenticAMD Ryzen 7 9800X3D, family 0x1A, model 0x44, eight cores, one package.
-  PawnIO installed version 2.2.0.0; execution was non-elevated. Driver access was
-  denied. The signed module could not be loaded, so PM version is unknown.
-- 0x620105 and indices 317–324 are confirmed against the reference map, NOT
-  confirmed by local hardware. Core 0–7, max/core number and average are unavailable.
-  LHM Tctl/Tdie returned zero in inventory (rejected as unavailable), so no valid
-  aggregate comparison was possible. Auto used existing LHM fallback selection.
-- Last UI values: CPU temperature N/A; GPU 57.0 °C; CPU power 0.0 W; GPU power
-  54.0 W; SENSOR ERROR. This preserves the existing non-elevated CPU access
-  limitation; it is not a successful per-core hardware verification.
-- Evidence: artifacts/sensor-check-0.3.0-final/dashboard.png and
-  stats-screen-20260908.log. Screenshot inspected: no dashboard clipping; saved
-  blue/red colours preserved. Interactive source-menu and physical LCD checks
-  remain unverified in this environment.
+- A framework-hosted, non-elevated diagnostic first received Windows error 5 from
+  PawnIO; this explains why that diagnostic could not verify the hardware. The
+  packaged executable carries `requireAdministrator` in its manifest.
+- A run of the packaged executable succeeded with `Elevated: True` and PawnIO
+  2.2.0.0. CPU detected: AuthenticAMD Ryzen 7 9800X3D, family 0x1A, model 0x44,
+  eight cores, one package. The signed module loaded successfully.
+- The detected PM table was `0x00620105`, matching the explicitly allowed
+  `0x620105` layout. Core 0–7 read 36.1, 33.3, 35.0, 33.4, 33.1, 32.5, 32.5,
+  and 32.1 °C. Max Core was 36.1 °C (Core 0); Average Core was 33.5 °C.
+- The same sample logged LHM Tctl/Tdie at 54.6 °C. This is a comparison only;
+  the two readings represent different sensor concepts and are not forced to
+  match. The difference was below the diagnostic warning threshold.
+- The application recorded a subsequent `AverageCore` source selection, and the
+  settings file persisted `CpuTemperatureSource: AverageCore`. The dashboard
+  remained running with the existing blue/red colours and no layout changes.
+- Evidence is in the local StatsScreen log at
+  `%LOCALAPPDATA%\\StatsScreen\\logs\\stats-screen-20260909.log`; the earlier
+  non-elevated render remains in `artifacts/sensor-check-0.3.0-final/`.
+- Interactive source-menu and physical LCD checks remain unverified here.
 - Research, licences, exact module hash/source and read-only boundary are in
   docs/GRANITE-RIDGE.md. No private reflection or additional driver was introduced.
-- No push or GitHub release was performed. Administrator-run diagnostics are
-  still required. If the actual PM version differs, STOP without reading offsets.
+- No push or GitHub release was performed. If a different machine reports another
+  PM version, STOP without reading offsets.
 
 ## Historical 0.2.3 verification
 
