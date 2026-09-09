@@ -7,7 +7,7 @@ Stats Screen is a purpose-built .NET 8 WPF dashboard for an 800 × 600 secondary
 - CPU package power
 - total GPU board/package power
 
-The UI is a purpose-built instrumentation display: temperatures dominate the upper half, power sits below, and detected CPU/GPU names form a compact status strip. Sensor polling is kept off the WPF UI thread, and a missing sensor is displayed as `N/A` rather than treated as a fatal error.
+The UI is a purpose-built neon instrumentation display: cyan/red temperature cards dominate the upper half, power cards add lightning badges and rising bars below, and detected CPU/GPU names form a glowing hardware strip. Sensor polling is kept off the WPF UI thread, and a missing sensor is displayed as `N/A` rather than treated as a fatal error.
 
 [Latest published Windows installer (0.2.0)](https://github.com/Bonkerz80/StatsScreen/releases/latest/download/StatsScreen-Setup-0.2.0.exe) · The 0.4.0 installer is experimental and is not published yet.
 
@@ -94,7 +94,7 @@ The published files are placed under `src\StatsScreen\bin\Release\net8.0-windows
 
 ## Verification
 
-The 0.4.0 visual refresh retains the experimental provider, settings, and colour customisation work. See [VERIFICATION.md](VERIFICATION.md) for automated checks and the hardware evidence.
+The 0.4.0 reference-led visual refresh retains the experimental provider, settings, and colour customisation work. See [VERIFICATION.md](VERIFICATION.md) for automated checks and the hardware evidence.
 
 ## Run and controls
 

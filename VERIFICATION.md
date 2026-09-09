@@ -1,16 +1,16 @@
 # Stats Screen 0.4.0 verification — 9 September 2026
 
-- Inspected clean local HEAD `241c1a2` (`Add automatic Granite Ridge sensor
-  retry`) before the visual update. Existing telemetry, settings, menu,
-  polling, logging, installer, and test files were preserved.
-- Reworked only the dashboard presentation layer: layered dark surfaces,
-  restrained accent edges, fixed-width values, slim temperature tracks,
-  integrated power band, and compact hardware/status strip.
-- Rendered the new dashboard at exactly 800 × 600. Local visual inspection
-  confirmed aligned cards, readable units and source labels, no clipping or
-  overlap, visible accent consistency, and correctly rendered decimal/unit
-  columns. The final rendered evidence is in
-  `artifacts/visual-check-0.4.0-final/dashboard.png`.
+- Inspected clean local HEAD `3eab7d3` (`Refine telemetry layout and numeric
+  rendering`) before the reference-led visual update. Existing telemetry,
+  settings, menu, polling, logging, installer, and test files were preserved.
+- Reworked only the dashboard presentation layer: neon cyan/red rounded cards,
+  vector CPU/GPU icons, pulse traces, pill temperature tracks, lightning power
+  badges, rising power bars, and a split hardware/status footer.
+- Rendered the refreshed dashboard at exactly 800 × 600. Local visual
+  inspection confirmed aligned cards, readable units and source labels, no
+  clipping or overlap, visible accent consistency, and correctly rendered
+  decimal/unit columns. The final reference-led evidence is in
+  `artifacts/visual-check-0.4.0-reference-final/dashboard.png`.
 - Generated and inspected the original icon at 1024 × 1024 and 256 × 256.
   The ICO contains 16, 24, 32, 48, 64, 128, and 256 pixel images.
 
@@ -19,7 +19,7 @@
   seconds while unsupported CPUs and unknown PM versions remain permanently
   disabled for the current run. The new cooldown/recovery behavior is covered
   by the Granite Ridge test suite.
-- The visual change was applied to clean HEAD `241c1a2` without discarding
+- The visual change was applied to clean HEAD `3eab7d3` without discarding
   local work.
 
 - Retained the experimental read-only Granite Ridge provider and immediate,
@@ -32,8 +32,8 @@
 - Release build, self-contained win-x64 publish and Inno Setup 6.7.3 packaging
   succeeded. The published executable reports file version `0.4.0.0`. Local
   installer: `artifacts/installer/StatsScreen-Setup-0.4.0.exe`; size:
-  55,037,386 bytes; SHA256:
-  `81642F98A09939C04036F505AEA23B3576723BEA79B339171196D72CC8A9F13C`.
+  55,044,684 bytes; SHA256:
+  `9EED15E528261E0FBC9AF60374CDA0AE97E73BDAE224B2EC5EBA9891B17C398C`.
 - The ICO is embedded through the project ApplicationIcon setting, both WPF
   windows reference the same resource, and the installer compiled with
   `SetupIconFile` plus explicit Start menu/desktop shortcut icon settings.

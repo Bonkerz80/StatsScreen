@@ -17,10 +17,11 @@
     </Style>
 
     <Style x:Key="TemperatureBarStyle" TargetType="ProgressBar">
-        <Setter Property="Height" Value="7" />
-        <Setter Property="Background" Value="#263541" />
+        <Setter Property="Height" Value="10" />
+        <Setter Property="Background" Value="#172C3D" />
         <Setter Property="Foreground" Value="{Binding TemperatureBarBrush}" />
-        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="BorderBrush" Value="#31506A" />
+        <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ProgressBar">
@@ -28,22 +29,13 @@
                           Height="{TemplateBinding Height}"
                           ClipToBounds="True">
                         <Border Background="{TemplateBinding Background}"
-                                CornerRadius="4" />
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="5" />
                         <Border x:Name="PART_Indicator"
                                 HorizontalAlignment="Left"
                                 Background="{TemplateBinding Foreground}"
-                                CornerRadius="4">
-                            <Grid>
-                                <Border Background="{TemplateBinding Foreground}"
-                                        CornerRadius="4" />
-                                <Ellipse Width="5"
-                                         Height="5"
-                                         Margin="0,0,1,0"
-                                         Fill="#F6FAFC"
-                                         HorizontalAlignment="Right"
-                                         VerticalAlignment="Center" />
-                            </Grid>
-                        </Border>
+                                CornerRadius="5" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

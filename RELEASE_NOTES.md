@@ -1,20 +1,19 @@
 # Stats Screen v0.4.0 (experimental, local build)
 
-This release gives the fixed 800 × 600 dashboard a more deliberate telemetry
-instrumentation language while preserving the existing sensor hierarchy and
-controls.
+This release gives the fixed 800 × 600 dashboard a neon telemetry-cluster
+identity inspired by the supplied CPU/GPU reference while preserving the
+existing sensor hierarchy and controls.
 
-- Replaced the boxed 2×2 visual treatment with layered dark surfaces, subtle
-  tonal depth, restrained rounded corners, low-contrast borders, and intentional
-  spacing.
+- Reworked the dashboard around luminous cyan/red rounded cards, layered accent
+  strokes, technical background lines, CPU/GPU pictograms, pulse traces, and a
+  stronger white numeric hierarchy.
 - Kept CPU/GPU temperatures dominant with fixed-width numeric columns, clear
-  units, source labels, accent top edges, and slim telemetry tracks with active
-  endpoint markers. The value columns explicitly keep decimal readings such as
-  `9.8`, `40.3`, and `105.0` inside the layout without clipping.
-- Integrated CPU and GPU power into one lighter-weight band with a quiet centre
-  separator, aligned wattage columns, and accent power rules.
-- Modernised the hardware strip with accent rails, compact CPU/GPU identification,
-  and a small live telemetry status readout.
+  units, source labels, and pill-style tracks. Decimal readings such as `9.8`,
+  `40.3`, and `105.0` remain inside the layout without clipping.
+- Added reference-style CPU/GPU power cards with lightning badges, package/board
+  sublabels, coloured rules, and rising telemetry bars.
+- Reworked the hardware strip and footer with split CPU/GPU accents, diagonal
+  corner detailing, a live status divider, and the `SYSTEM MONITOR` treatment.
 - Added a deterministic dark dual-channel telemetry icon in PNG and multi-size
   ICO formats. The icon is applied to the executable, both windows, Start menu,
   desktop shortcut, and installer.
