@@ -46,6 +46,8 @@ public sealed class DashboardViewModel : INotifyPropertyChanged
         private set => SetField(ref _statusText, value);
     }
 
+    public string StatusLabel => string.IsNullOrWhiteSpace(StatusText) ? "LIVE" : StatusText;
+
     public string CpuHardwareText
     {
         get => _cpuHardwareText;
@@ -100,6 +102,7 @@ public sealed class DashboardViewModel : INotifyPropertyChanged
         StatusText = string.Equals(snapshot.Status, "LIVE", StringComparison.OrdinalIgnoreCase)
             ? string.Empty
             : snapshot.Status;
+        RaisePropertyChanged(nameof(StatusLabel));
     }
 
     private void SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)

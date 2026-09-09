@@ -1,8 +1,9 @@
-#define AppVersion "0.3.1"
+#define AppVersion "0.4.0"
 [Setup]
 AppId={{45260BCA-87BC-42A4-A19B-A92EA5145D49}
 AppName=Stats Screen
 AppVersion={#AppVersion}
+SetupIconFile=..\src\StatsScreen\Resources\StatsScreen.ico
 DefaultDirName={autopf}\Stats Screen
 DefaultGroupName=Stats Screen
 DisableProgramGroupPage=yes
@@ -30,8 +31,8 @@ Source: "configure-startup.ps1"; DestDir: "{app}"; Flags: ignoreversion
 Source: "vendor\PawnIO_setup.exe"; Flags: dontcopy
 
 [Icons]
-Name: "{autoprograms}\Stats Screen"; Filename: "{app}\StatsScreen.exe"
-Name: "{autodesktop}\Stats Screen"; Filename: "{app}\StatsScreen.exe"; Tasks: desktopicon
+Name: "{autoprograms}\Stats Screen"; Filename: "{app}\StatsScreen.exe"; IconFilename: "{app}\StatsScreen.exe"
+Name: "{autodesktop}\Stats Screen"; Filename: "{app}\StatsScreen.exe"; IconFilename: "{app}\StatsScreen.exe"; Tasks: desktopicon
 
 [Run]
 Filename: "{app}\StatsScreen.exe"; Description: "Open Stats Screen"; Flags: postinstall nowait skipifsilent runascurrentuser

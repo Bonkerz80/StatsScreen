@@ -153,6 +153,7 @@ public sealed class PresentationTests
             true));
 
         Assert.Equal(string.Empty, viewModel.StatusText);
+        Assert.Equal("LIVE", viewModel.StatusLabel);
     }
 
     [Fact]
@@ -162,6 +163,7 @@ public sealed class PresentationTests
         viewModel.Apply(DashboardSnapshot.Unavailable("HARDWARE ERROR"));
 
         Assert.Equal("HARDWARE ERROR", viewModel.StatusText);
+        Assert.Equal("HARDWARE ERROR", viewModel.StatusLabel);
     }
 
     [Fact]

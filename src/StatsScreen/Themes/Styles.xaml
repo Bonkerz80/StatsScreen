@@ -17,23 +17,34 @@
     </Style>
 
     <Style x:Key="TemperatureBarStyle" TargetType="ProgressBar">
-        <Setter Property="Height" Value="12" />
-        <Setter Property="Background" Value="#202A34" />
+        <Setter Property="Height" Value="7" />
+        <Setter Property="Background" Value="#263541" />
         <Setter Property="Foreground" Value="{Binding TemperatureBarBrush}" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ProgressBar">
-                    <Border Background="{TemplateBinding Background}"
-                            CornerRadius="6"
-                            ClipToBounds="True">
-                        <Grid x:Name="PART_Track">
-                            <Border x:Name="PART_Indicator"
-                                    HorizontalAlignment="Left"
-                                    Background="{TemplateBinding Foreground}"
-                                    CornerRadius="6" />
-                        </Grid>
-                    </Border>
+                    <Grid x:Name="PART_Track"
+                          Height="{TemplateBinding Height}"
+                          ClipToBounds="True">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="4" />
+                        <Border x:Name="PART_Indicator"
+                                HorizontalAlignment="Left"
+                                Background="{TemplateBinding Foreground}"
+                                CornerRadius="4">
+                            <Grid>
+                                <Border Background="{TemplateBinding Foreground}"
+                                        CornerRadius="4" />
+                                <Ellipse Width="5"
+                                         Height="5"
+                                         Margin="0,0,1,0"
+                                         Fill="#F6FAFC"
+                                         HorizontalAlignment="Right"
+                                         VerticalAlignment="Center" />
+                            </Grid>
+                        </Border>
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

@@ -1,10 +1,42 @@
-# Stats Screen v0.3.1 (experimental, local build)
+# Stats Screen v0.4.0 (experimental, local build)
 
-Transient Granite Ridge sensor-access failures now recover automatically. The
+This release gives the fixed 800 × 600 dashboard a more deliberate telemetry
+instrumentation language while preserving the existing sensor hierarchy and
+controls.
+
+- Replaced the boxed 2×2 visual treatment with layered dark surfaces, subtle
+  tonal depth, restrained rounded corners, low-contrast borders, and intentional
+  spacing.
+- Kept CPU/GPU temperatures dominant with fixed-width numeric columns, clear
+  units, source labels, accent top edges, and slim telemetry tracks with active
+  endpoint markers.
+- Integrated CPU and GPU power into one lighter-weight band with a quiet centre
+  separator, aligned wattage columns, and accent power rules.
+- Modernised the hardware strip with accent rails, compact CPU/GPU identification,
+  and a small live telemetry status readout.
+- Added a deterministic dark dual-channel telemetry icon in PNG and multi-size
+  ICO formats. The icon is applied to the executable, both windows, Start menu,
+  desktop shortcut, and installer.
+- Added the live status label without changing the existing `StatusText` contract;
+  healthy dashboards show `LIVE`, while errors remain explicit.
+
+The experimental read-only Granite Ridge provider, per-core/average-core source
+selection, colour settings, polling, logging, display mode, installer flow and
+tests remain intact. Unknown PM versions and unsupported CPUs still fail closed;
+transient provider failures use LibreHardwareMonitor and retry automatically.
+
+The self-contained x64 installer is built locally for validation. The v0.4.0
+GitHub release is intentionally not published yet.
+
+## Previous v0.3.1 changes
+
+Transient Granite Ridge sensor-access failures recover automatically. The
 provider releases the failed reader, keeps LibreHardwareMonitor as the live
 fallback, and retries after 30 seconds. Unsupported CPUs and unknown PM table
 versions remain permanently disabled for the current run so no unverified
 offsets are ever read.
+
+## Retained 0.3.0 Granite Ridge support
 
 Adds a read-only Granite Ridge temperature provider for the eight-core Ryzen 7
 9800X3D and PM table 0x620105. Auto selects a calculated Max Core when all eight
@@ -15,10 +47,8 @@ and Tctl/Tdie with immediate persistent selection and disabled unavailable optio
 Uses the existing PawnIO driver with the official signed 0.2.11 RyzenSMU module.
 No CPU tuning operations are exposed. Unknown PM versions disable the
 experimental provider until restart; transient invalid/incomplete tables and
-access failures use the fallback and retry automatically.
-Diagnostics include individual cores, offsets, max, average and actual selection.
-The packaged administrator-aware executable was then verified on a Ryzen 7
-9800X3D: PM table 0x620105 was accepted and all eight core values were read.
+access failures use the fallback and retry automatically. Diagnostics include
+individual cores, offsets, max, average and actual selection.
 
 ## Retained 0.2.3 settings changes
 
@@ -33,7 +63,7 @@ Highlights:
 - Increased Settings-window contrast and typography, enlarged the window to 560 × 420, and made Save more prominent without changing the dashboard layout.
 - Preserved monitor selection, polling interval, colour settings, cancellation behaviour, sensor selection, polling, logging, fullscreen/display handling, installer behaviour, and the 800 × 600 dashboard.
 
-The update retains the v0.2.2 palette and colour menu unchanged. The self-contained x64 installer is built locally for validation; the v0.3.1 GitHub release is intentionally not published yet.
+The update retains the v0.2.2 palette and colour menu unchanged.
 
 ## Previous release
 
