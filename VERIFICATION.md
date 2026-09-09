@@ -1,4 +1,12 @@
-# Stats Screen 0.3.0 verification — 9 September 2026
+# Stats Screen 0.3.1 verification — 9 September 2026
+
+- Added automatic recovery for transient Granite Ridge reader, access, and
+  table-validation failures. The provider retries with a fresh reader after 30
+  seconds while unsupported CPUs and unknown PM versions remain permanently
+  disabled for the current run. The new cooldown/recovery behavior is covered
+  by the Granite Ridge test suite.
+- The retry change was applied to clean HEAD `39a8879` (`Document verified
+  9800X3D telemetry`) without discarding local work.
 
 - Inspected local HEAD f0902d765b04649e6595e4f8e179358bf70ab5a7 (version 0.2.3),
   clean working tree, three commits ahead of origin/main. Inspected all three
@@ -8,11 +16,12 @@
   control styles, accents and warnings remain intact.
 - 74 tests passed: the original 36 plus 38 cases covering offsets, complete core
   extraction, max/index/average, invalid floats and sizes, version gates, identity
-  gates, failure disposal, stale data, Auto/explicit selection and persistence.
+  gates, failure disposal and automatic retry, stale data, Auto/explicit selection
+  and persistence.
 - Release build, self-contained win-x64 publish and Inno Setup 6.7.3 packaging
-  succeeded. Local installer: artifacts/installer/StatsScreen-Setup-0.3.0.exe.
-  Size: 54,969,824 bytes. SHA256:
-  16BA8230F1B77F2F35D4196C94BA39C3CFC8FC296D82E7C7AC4F905A94265CFF.
+  succeeded. Local installer: artifacts/installer/StatsScreen-Setup-0.3.1.exe.
+  Size: 54,933,963 bytes. SHA256:
+  AE80187543D6A4B4DBC5A37CAEB01021093703124FF74E10ECE1CE62F42E61DF.
 - NU1900 warnings: vulnerability-feed metadata unavailable. No compilation errors.
 - A framework-hosted, non-elevated diagnostic first received Windows error 5 from
   PawnIO; this explains why that diagnostic could not verify the hardware. The

@@ -1,6 +1,6 @@
 # Stats Screen
 
-Stats Screen is a purpose-built .NET 8 WPF dashboard for an 800 × 600 secondary display. Version 0.3.0 reads four live values through `LibreHardwareMonitorLib` with experimental 9800X3D per-core temperature support:
+Stats Screen is a purpose-built .NET 8 WPF dashboard for an 800 × 600 secondary display. Version 0.3.1 reads four live values through `LibreHardwareMonitorLib` with experimental 9800X3D per-core temperature support:
 
 - maximum available CPU core temperature
 - main GPU core temperature
@@ -9,11 +9,11 @@ Stats Screen is a purpose-built .NET 8 WPF dashboard for an 800 × 600 secondary
 
 The UI is a purpose-built instrumentation display: temperatures dominate the upper half, power sits below, and detected CPU/GPU names form a compact status strip. Sensor polling is kept off the WPF UI thread, and a missing sensor is displayed as `N/A` rather than treated as a fatal error.
 
-[Latest published Windows installer (0.2.0)](https://github.com/Bonkerz80/StatsScreen/releases/latest/download/StatsScreen-Setup-0.2.0.exe) · The 0.3.0 installer is experimental and is not published yet.
+[Latest published Windows installer (0.2.0)](https://github.com/Bonkerz80/StatsScreen/releases/latest/download/StatsScreen-Setup-0.2.0.exe) · The 0.3.1 installer is experimental and is not published yet.
 
 ![Stats Screen dashboard preview](docs/dashboard.png)
 
-## Experimental CPU temperature sources (0.3.0)
+## Experimental CPU temperature sources (0.3.1)
 
 Right-click **CPU Temperature Source** to choose Auto, Max Core, Average Core,
 Core 0–7 or Tctl/Tdie. Auto prefers a genuine calculated Max Core when the
@@ -23,13 +23,14 @@ Selection saves immediately and retains your temperature colours and warnings.
 
 Only the Ryzen 7 9800X3D with recognised PM table version 0x620105 is supported.
 The additional provider reuses PawnIO for read-only telemetry and never changes
-CPU tuning. Unknown versions and invalid reads fall back safely. The packaged
-administrator-aware executable has now read all eight cores on the target
-9800X3D. See [research and verification](docs/GRANITE-RIDGE.md).
+CPU tuning. Unknown versions remain disabled safely, while transient access or
+invalid reads fall back to LibreHardwareMonitor and are retried automatically
+every 30 seconds. The packaged administrator-aware executable has now read all
+eight cores on the target 9800X3D. See [research and verification](docs/GRANITE-RIDGE.md).
 
-## Install and first run (0.3.0 local validation)
+## Install and first run (0.3.1 local validation)
 
-Run `artifacts/installer/StatsScreen-Setup-0.3.0.exe` after building locally. The latest published installer remains available from the download link above. The installer includes the .NET runtime, installs to Program Files, creates a Start menu entry, and offers a desktop shortcut (selected by default).
+Run `artifacts/installer/StatsScreen-Setup-0.3.1.exe` after building locally. The latest published installer remains available from the download link above. The installer includes the .NET runtime, installs to Program Files, creates a Start menu entry, and offers a desktop shortcut (selected by default).
 
 **Start with Windows** is optional and initially unchecked. It creates a scheduled task for the account running setup with interactive sign-in and administrator privileges; no password is stored. Run setup again and change the checkbox to enable/disable it. For an account using different administrator credentials, the startup task belongs to that administrator account.
 
@@ -51,11 +52,11 @@ Use `-DotNet <path-to-dotnet.exe>` and `-InnoCompiler <path-to-ISCC.exe>` for to
 
 ### Automated GitHub builds
 
-Pull requests and pushes to `main` run the test suite automatically. To publish a new installer, update the version in `StatsScreen.csproj`, `installer/StatsScreen.iss`, and `installer/setup-info.txt`, update `RELEASE_NOTES.md`, then push a matching tag such as `v0.3.0`:
+Pull requests and pushes to `main` run the test suite automatically. To publish a new installer, update the version in `StatsScreen.csproj`, `installer/StatsScreen.iss`, and `installer/setup-info.txt`, update `RELEASE_NOTES.md`, then push a matching tag such as `v0.3.1`:
 
 ```powershell
-git tag v0.3.0
-git push origin v0.3.0
+git tag v0.3.1
+git push origin v0.3.1
 ```
 
 GitHub Actions validates the tag, downloads the official signed PawnIO 2.2.0 setup package with a pinned SHA256 check, builds the self-contained x64 installer, uploads it as a workflow artifact, and creates the GitHub release automatically. A manual workflow run can build and upload an installer artifact without publishing a release.
@@ -84,7 +85,7 @@ The published files are placed under `src\StatsScreen\bin\Release\net8.0-windows
 
 ## Verification
 
-The 0.3.0 experimental provider retains the settings and colour customisation work. See [VERIFICATION.md](VERIFICATION.md) for automated checks and the hardware evidence.
+The 0.3.1 experimental provider retains the settings and colour customisation work. See [VERIFICATION.md](VERIFICATION.md) for automated checks and the hardware evidence.
 
 ## Run and controls
 

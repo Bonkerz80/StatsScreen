@@ -60,8 +60,10 @@ checks catch short transfers, but cannot independently prove firmware layout.
 All eight floats must be finite and strictly between 0 and 125 °C. Invalid or
 incomplete data is rejected, never clamped. Max, hottest index (lowest index on a
 tie), and arithmetic average are computed from the same complete snapshot.
-Unknown versions, access failures or invalid readings disable this provider until
-app restart, leaving LHM available. No nearby offsets are probed.
+Unknown PM versions and unsupported CPU identities disable this provider until
+app restart, leaving LHM available. Transient access failures and invalid
+readings release the reader, leave LHM active, and retry automatically after 30
+seconds. No nearby offsets are probed.
 
 Right-click CPU Temperature Source selects Auto, Max Core, Average Core, Core 0–7,
 or Tctl/Tdie. Options without genuine readings are disabled. Auto prefers Max Core;

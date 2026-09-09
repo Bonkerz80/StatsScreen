@@ -102,12 +102,16 @@ public sealed class GraniteRidgeTests
     [Fact]
     public void UnknownVersionNeverReadsTable()
     {
+        DateTimeOffset now = DateTimeOffset.UtcNow;
         using var reader = new Reader { Version = 0x620205 };
-        using var provider = new GraniteRidgeTemperatureProvider(new Logger(), detect: () => Supported, createReader: () => reader);
+        using var provider = new GraniteRidgeTemperatureProvider(new Logger(), detect: () => Supported,
+            createReader: () => reader, utcNow: () => now);
         Assert.False(provider.Read(70).IsAvailable);
         Assert.Equal(0, reader.Reads);
+        now = now.AddMinutes(1);
         Assert.False(provider.Read(70).IsAvailable);
         Assert.Equal(1, reader.Resolves);
+        Assert.Equal(0, reader.Reads);
     }
 
     [Fact]
@@ -140,14 +144,26 @@ public sealed class GraniteRidgeTests
     }
 
     [Fact]
-    public void ReaderFailureDisablesAndDisposes()
+    public void ReaderFailureRetriesAfterCooldownAndDisposes()
     {
-        using var reader = new Reader { Fail = true };
-        using var provider = new GraniteRidgeTemperatureProvider(new Logger(), detect: () => Supported, createReader: () => reader);
+        DateTimeOffset now = DateTimeOffset.UtcNow;
+        var firstReader = new Reader { Fail = true };
+        var secondReader = new Reader();
+        int creations = 0;
+        using var provider = new GraniteRidgeTemperatureProvider(new Logger(), detect: () => Supported,
+            createReader: () => ++creations == 1 ? firstReader : secondReader, utcNow: () => now);
         Assert.False(provider.Read(70).IsAvailable);
-        Assert.True(reader.Disposed);
+        Assert.True(firstReader.Disposed);
         Assert.False(provider.Read(70).IsAvailable);
-        Assert.Equal(1, reader.Reads);
+        Assert.Equal(1, creations);
+        now = now.AddSeconds(29);
+        Assert.False(provider.Read(70).IsAvailable);
+        Assert.Equal(1, creations);
+        now = now.AddSeconds(1);
+        Assert.True(provider.Read(70).IsAvailable);
+        Assert.Equal(2, creations);
+        Assert.Equal(1, firstReader.Reads);
+        Assert.Equal(1, secondReader.Reads);
     }
 
     [Fact]

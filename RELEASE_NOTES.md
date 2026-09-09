@@ -1,4 +1,10 @@
-# Stats Screen v0.3.0 (experimental, local build)
+# Stats Screen v0.3.1 (experimental, local build)
+
+Transient Granite Ridge sensor-access failures now recover automatically. The
+provider releases the failed reader, keeps LibreHardwareMonitor as the live
+fallback, and retries after 30 seconds. Unsupported CPUs and unknown PM table
+versions remain permanently disabled for the current run so no unverified
+offsets are ever read.
 
 Adds a read-only Granite Ridge temperature provider for the eight-core Ryzen 7
 9800X3D and PM table 0x620105. Auto selects a calculated Max Core when all eight
@@ -7,8 +13,9 @@ Right-click CPU Temperature Source offers Auto, Max Core, Average Core, Core 0�
 and Tctl/Tdie with immediate persistent selection and disabled unavailable options.
 
 Uses the existing PawnIO driver with the official signed 0.2.11 RyzenSMU module.
-No CPU tuning operations are exposed. Unknown PM versions, invalid/incomplete
-tables and access failures disable the experimental provider until restart.
+No CPU tuning operations are exposed. Unknown PM versions disable the
+experimental provider until restart; transient invalid/incomplete tables and
+access failures use the fallback and retry automatically.
 Diagnostics include individual cores, offsets, max, average and actual selection.
 The packaged administrator-aware executable was then verified on a Ryzen 7
 9800X3D: PM table 0x620105 was accepted and all eight core values were read.
@@ -26,7 +33,7 @@ Highlights:
 - Increased Settings-window contrast and typography, enlarged the window to 560 × 420, and made Save more prominent without changing the dashboard layout.
 - Preserved monitor selection, polling interval, colour settings, cancellation behaviour, sensor selection, polling, logging, fullscreen/display handling, installer behaviour, and the 800 × 600 dashboard.
 
-The update retains the v0.2.2 palette and colour menu unchanged. The self-contained x64 installer is built locally for validation; the v0.3.0 GitHub release is intentionally not published yet.
+The update retains the v0.2.2 palette and colour menu unchanged. The self-contained x64 installer is built locally for validation; the v0.3.1 GitHub release is intentionally not published yet.
 
 ## Previous release
 

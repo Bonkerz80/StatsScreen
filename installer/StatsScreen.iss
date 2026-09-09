@@ -1,4 +1,4 @@
-#define AppVersion "0.3.0"
+#define AppVersion "0.3.1"
 [Setup]
 AppId={{45260BCA-87BC-42A4-A19B-A92EA5145D49}
 AppName=Stats Screen
