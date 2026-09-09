@@ -14,6 +14,9 @@ existing sensor hierarchy and controls.
   sublabels, coloured rules, and rising telemetry bars.
 - Reworked the hardware strip and footer with split CPU/GPU accents, diagonal
   corner detailing, a live status divider, and the `SYSTEM MONITOR` treatment.
+- Removed low-visibility dotted rings, the non-semantic `01 / THERMAL` labels,
+  and the extra top accent rails. Removed the small-screen-unfriendly footer
+  slogan and centred `SYSTEM MONITOR` for the 800 × 600 display.
 - Added a deterministic dark dual-channel telemetry icon in PNG and multi-size
   ICO formats. The icon is applied to the executable, both windows, Start menu,
   desktop shortcut, and installer.

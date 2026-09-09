@@ -6,11 +6,14 @@
 - Reworked only the dashboard presentation layer: neon cyan/red rounded cards,
   vector CPU/GPU icons, pulse traces, pill temperature tracks, lightning power
   badges, rising power bars, and a split hardware/status footer.
+- Removed the faint dotted value rings, `01 / THERMAL` and `02 / THERMAL`
+  labels, decorative top rails, and the bottom-right slogan after small-screen
+  inspection; `SYSTEM MONITOR` is now centred.
 - Rendered the refreshed dashboard at exactly 800 × 600. Local visual
   inspection confirmed aligned cards, readable units and source labels, no
   clipping or overlap, visible accent consistency, and correctly rendered
   decimal/unit columns. The final reference-led evidence is in
-  `artifacts/visual-check-0.4.0-reference-final/dashboard.png`.
+  `artifacts/visual-check-0.4.0-small-screen-cleanup/dashboard.png`.
 - Generated and inspected the original icon at 1024 × 1024 and 256 × 256.
   The ICO contains 16, 24, 32, 48, 64, 128, and 256 pixel images.
 

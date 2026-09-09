@@ -163,12 +163,6 @@
                                 <Border Background="{Binding AccentBrush}"
                                         CornerRadius="15"
                                         Opacity="0.055" />
-                                <Border Height="2"
-                                        Margin="3,2,3,0"
-                                        Background="{Binding AccentBrush}"
-                                        CornerRadius="2,2,0,0"
-                                        VerticalAlignment="Top"
-                                        Opacity="0.95" />
                                 <Border Width="2"
                                         Height="48"
                                         Margin="15,18,0,0"
@@ -230,34 +224,12 @@
                                                   Fill="Transparent"
                                                   Stretch="Fill"
                                                   Opacity="0.95" />
-                                            <TextBlock Margin="0,3,0,0"
-                                                       Text="01 / THERMAL"
-                                                       Foreground="{Binding AccentBrush}"
-                                                       FontFamily="Cascadia Mono,Consolas"
-                                                       FontSize="7"
-                                                       FontWeight="SemiBold"
-                                                       HorizontalAlignment="Right"
-                                                       Opacity="0.65" />
                                         </StackPanel>
                                     </Grid>
 
                                     <Grid Grid.Row="1"
                                           HorizontalAlignment="Center"
                                           VerticalAlignment="Center">
-                                        <Ellipse Width="270"
-                                                 Height="142"
-                                                 Stroke="#31506A"
-                                                 StrokeThickness="1"
-                                                 StrokeDashArray="1,6"
-                                                 Opacity="0.42"
-                                                 IsHitTestVisible="False" />
-                                        <Ellipse Width="238"
-                                                 Height="118"
-                                                 Stroke="{Binding AccentBrush}"
-                                                 StrokeThickness="1"
-                                                 StrokeDashArray="0.2,7"
-                                                 Opacity="0.26"
-                                                 IsHitTestVisible="False" />
                                         <Grid HorizontalAlignment="Center"
                                               VerticalAlignment="Center">
                                             <Grid.ColumnDefinitions>
@@ -322,12 +294,6 @@
                                 <Border Background="{Binding AccentBrush}"
                                         CornerRadius="15"
                                         Opacity="0.055" />
-                                <Border Height="2"
-                                        Margin="3,2,3,0"
-                                        Background="{Binding AccentBrush}"
-                                        CornerRadius="2,2,0,0"
-                                        VerticalAlignment="Top"
-                                        Opacity="0.95" />
                                 <Border Width="2"
                                         Height="48"
                                         Margin="15,18,0,0"
@@ -426,34 +392,12 @@
                                                   Fill="Transparent"
                                                   Stretch="Fill"
                                                   Opacity="0.95" />
-                                            <TextBlock Margin="0,3,0,0"
-                                                       Text="02 / THERMAL"
-                                                       Foreground="{Binding AccentBrush}"
-                                                       FontFamily="Cascadia Mono,Consolas"
-                                                       FontSize="7"
-                                                       FontWeight="SemiBold"
-                                                       HorizontalAlignment="Right"
-                                                       Opacity="0.65" />
                                         </StackPanel>
                                     </Grid>
 
                                     <Grid Grid.Row="1"
                                           HorizontalAlignment="Center"
                                           VerticalAlignment="Center">
-                                        <Ellipse Width="270"
-                                                 Height="142"
-                                                 Stroke="#4B3B4D"
-                                                 StrokeThickness="1"
-                                                 StrokeDashArray="1,6"
-                                                 Opacity="0.42"
-                                                 IsHitTestVisible="False" />
-                                        <Ellipse Width="238"
-                                                 Height="118"
-                                                 Stroke="{Binding AccentBrush}"
-                                                 StrokeThickness="1"
-                                                 StrokeDashArray="0.2,7"
-                                                 Opacity="0.26"
-                                                 IsHitTestVisible="False" />
                                         <Grid HorizontalAlignment="Center"
                                               VerticalAlignment="Center">
                                             <Grid.ColumnDefinitions>
@@ -725,18 +669,6 @@
                                 BorderThickness="1"
                                 CornerRadius="13">
                             <Grid>
-                                <Border Height="1"
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Top"
-                                        Width="360"
-                                        Background="{Binding CpuTemperature.AccentBrush}"
-                                        Opacity="0.9" />
-                                <Border Height="1"
-                                        HorizontalAlignment="Right"
-                                        VerticalAlignment="Top"
-                                        Width="360"
-                                        Background="{Binding GpuTemperature.AccentBrush}"
-                                        Opacity="0.9" />
                                 <Canvas Width="90"
                                         Height="58"
                                         HorizontalAlignment="Left"
@@ -820,9 +752,7 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="2.6*" />
                         </Grid.ColumnDefinitions>
                         <Border Grid.Column="0"
                                 Width="42"
@@ -831,12 +761,13 @@
                                 Background="{Binding CpuTemperature.AccentBrush}"
                                 Opacity="0.65" />
                         <TextBlock Grid.Column="1"
-                                   Margin="12,0,7,0"
+                                   Margin="12,0"
                                    Text="SYSTEM MONITOR"
                                    Foreground="{StaticResource DashboardMutedTextBrush}"
                                    FontFamily="Cascadia Mono,Consolas"
                                    FontSize="7"
                                    FontWeight="SemiBold"
+                                   HorizontalAlignment="Center"
                                    VerticalAlignment="Center" />
                         <Border Grid.Column="2"
                                 Width="42"
@@ -844,14 +775,6 @@
                                 HorizontalAlignment="Left"
                                 Background="{Binding GpuTemperature.AccentBrush}"
                                 Opacity="0.65" />
-                        <TextBlock Grid.Column="4"
-                                   Text="PERFORMANCE TODAY  ·  A BRIGHTER TOMORROW"
-                                   Foreground="{StaticResource DashboardQuietTextBrush}"
-                                   FontFamily="Cascadia Mono,Consolas"
-                                   FontSize="6"
-                                   FontWeight="SemiBold"
-                                   HorizontalAlignment="Right"
-                                   VerticalAlignment="Center" />
                     </Grid>
                 </Grid>
             </Grid>
